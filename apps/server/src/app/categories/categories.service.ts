@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoriesEntity } from './categories.entity';
@@ -28,7 +28,7 @@ export class CategoriesService {
   }
 
   async updateCategory(id: number, updatedEvent: Partial<CategoriesEntity>): Promise<CategoriesEntity | undefined> {
-    await this.categoriesEntityRepository.update({ id }, updatedEvent); // Pass criteria as an object
+    await this.categoriesEntityRepository.update({ id }, updatedEvent)
     return await this.categoriesEntityRepository.findOne({
       where: {
         id

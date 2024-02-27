@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CategoriesEntity } from '../categories/categories.entity';
 
 @Entity('events')
 export class EventsEntity {
@@ -14,6 +15,6 @@ export class EventsEntity {
   @Column()
   notes: string;
 
-  //relations
-
+  @OneToOne(() => CategoriesEntity)
+  category: CategoriesEntity;
 }
