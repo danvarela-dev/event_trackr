@@ -1,7 +1,8 @@
+import { Category } from './category.interface';
 export interface Events {
-  id: number;
+  id?: number;
   name: string;
-  event_type: string;
+  category: Category;
   event_date: Date;
   notes: string;
 }

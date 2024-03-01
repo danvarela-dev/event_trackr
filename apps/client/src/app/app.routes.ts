@@ -10,20 +10,20 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('./components/home/home.component').then(m => m.HomeComponent),
   },
-  {
-    path: 'categories',
-    loadComponent: () =>
-      import('./components/categories/categories.component').then(
-        m => m.CategoriesComponent,
-      ),
-  },
-  {
-    path: 'events',
-    loadComponent: () =>
-      import('./components/events/events.component').then(
-        m => m.EventsComponent,
-      ),
-  },
+  // {
+  //   path: 'categories',
+  //   loadComponent: () =>
+  //     import('./components/categories/categories.component').then(
+  //       m => m.CategoriesComponent,
+  //     ),
+  // },
+  // {
+  //   path: 'events',
+  //   loadComponent: () =>
+  //     import('./components/events/events.component').then(
+  //       m => m.EventsComponent,
+  //     ),
+  // },
   {
     path: 'login',
     loadComponent: () =>

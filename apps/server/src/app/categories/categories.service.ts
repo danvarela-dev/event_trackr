@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoriesEntity } from './categories.entity';
@@ -7,9 +7,8 @@ import { CategoriesEntity } from './categories.entity';
 export class CategoriesService {
   constructor(
     @InjectRepository(CategoriesEntity)
-    private readonly categoriesEntityRepository: Repository<CategoriesEntity>
-  ) {
-  }
+    private readonly categoriesEntityRepository: Repository<CategoriesEntity>,
+  ) {}
 
   async getAllCategories(): Promise<CategoriesEntity[]> {
     return await this.categoriesEntityRepository.find();
@@ -18,8 +17,8 @@ export class CategoriesService {
   async getCategoryById(id: number): Promise<CategoriesEntity | undefined> {
     return await this.categoriesEntityRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -27,12 +26,15 @@ export class CategoriesService {
     return await this.categoriesEntityRepository.save(event);
   }
 
-  async updateCategory(id: number, updatedEvent: Partial<CategoriesEntity>): Promise<CategoriesEntity | undefined> {
-    await this.categoriesEntityRepository.update({ id }, updatedEvent)
+  async updateCategory(
+    id: number,
+    updatedEvent: Partial<CategoriesEntity>,
+  ): Promise<CategoriesEntity | undefined> {
+    await this.categoriesEntityRepository.update({ id }, updatedEvent);
     return await this.categoriesEntityRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 

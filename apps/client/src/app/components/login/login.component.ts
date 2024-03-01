@@ -51,8 +51,9 @@ export class LoginComponent implements OnInit {
       .subscribe(({ status, result }) => {
         this.authenticationService.isLoggedIn = status;
         if (status) {
-          sessionStorage.setItem('user', result.user);
-          this.router.navigate(['/']);
+          sessionStorage.setItem('user', result);
+          console.log(result);
+          this.router.navigate(['/home']);
         }
       });
   }

@@ -8,10 +8,9 @@ export const baseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: 'localhost',
   port: 3306,
-  username: 'root',
-  password: 'admin',
+  username: 'kevin',
+  password: 'Emco2023**',
   database: 'event_trackr',
-  entities : [UsersEntity, CategoriesEntity, PeopleEntity, EventsEntity],
+  entities: [UsersEntity, CategoriesEntity, PeopleEntity, EventsEntity],
   synchronize: false,
 };
-

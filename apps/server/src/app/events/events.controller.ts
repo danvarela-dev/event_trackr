@@ -1,15 +1,28 @@
-import { Controller, Delete, Get, Injectable, Post, Put } from "@nestjs/common";
-import { EventsService } from "./events.service";
-import { ApiTags } from "@nestjs/swagger";
+/* eslint-disable @nx/enforce-module-boundaries */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { EventsService } from './events.service';
+import { ApiTags } from '@nestjs/swagger';
+import { Events } from 'apps/shared/models/events.interface';
 
 @ApiTags('Events')
 @Controller('events')
 export class EventsController {
-  constructor(private eventsService: EventsService) {
-  }
+  constructor(private eventsService: EventsService) {}
 
   @Get()
   async getAllEvents() {
+    console.log('getevents');
     return await this.eventsService.getAllEvents();
   }
 
@@ -19,13 +32,13 @@ export class EventsController {
   }
 
   @Post()
-  async createEvent(event) {
-    return await this.eventsService.createEvent(event);
+  async createEvent(@Body() event: any) {
+    return await this.eventsService.createEvent(event.event);
   }
 
-  @Put(':id')
-  async updateEvent(id: number, updatedEvent) {
-    return await this.eventsService.updateEvent(id, updatedEvent);
+  @Patch()
+  async updateEvent(@Query() id: any, @Body() updatedEvent: Events) {
+    return await this.eventsService.updateEvent(id.id, updatedEvent);
   }
 
   @Delete(':id')
