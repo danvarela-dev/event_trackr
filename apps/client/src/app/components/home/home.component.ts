@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
-/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FullCalendarComponent,
@@ -12,11 +11,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EventsComponent } from '../events/events.component';
 import { EventsService } from '../../services/events/events.service';
-import { Events } from 'apps/shared/models/events.interface';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
-import { Subscription, finalize } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { Events } from 'shared/src/lib/models/events.interface';
 
 @Component({
   selector: 'event-trackr-home',
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     displayEventTime: false,
     eventBackgroundColor: '#1801C2',
     eventDisplay: 'block',
+    height: '80vh',
   };
 
   events: Events[];
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ref: DynamicDialogRef | undefined;
+
   ngOnInit(): void {
     this.getEvents();
     if (this.events) {

@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router, RouterModule } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'event-trackr-login',
@@ -48,11 +49,19 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.authenticationService
       .login(this.loginForm.value)
+      .pipe(
+        finalize(() => {
+          this.authenticationService.getUser().subscribe(user => {
+            this.authenticationService.loggedInUser$.next(user.result);
+          });
+        }),
+      )
       .subscribe(({ status, result }) => {
         this.authenticationService.isLoggedIn = status;
+
         if (status) {
-          sessionStorage.setItem('user', result);
-          console.log(result);
+          localStorage.setItem('access_token', result.access_token);
+
           this.router.navigate(['/home']);
         }
       });

@@ -1,4 +1,5 @@
-import { Category } from './category.interface';
+import { Category } from '@event-trackr/shared';
+
 export interface Events {
   id?: number;
   name: string;
