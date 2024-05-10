@@ -1,7 +1,7 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Events } from './../../../../../shared/models/events.interface';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'apps/client/environments/environment';
 
@@ -15,7 +15,8 @@ export class EventsService {
   constructor() {}
 
   getEvents() {
-    return this.httpClient.get(`${this.base_url}/events`);
+    const timestamp = new Date().getTime();
+    return this.httpClient.get(`${this.base_url}/events/${timestamp}`);
   }
 
   postEvent(event: Events) {

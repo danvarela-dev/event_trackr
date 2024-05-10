@@ -4,7 +4,7 @@
       <label for="">Selccione Categoria</label>
     </div>
     <div class="col-8">
-      <p-dropdown class="w-full" [options]="categories" [(ngModel)]="selected_category" optionLabel="name" appendTo="body" placeholder="Seleccione una Categoria"></p-dropdown>
+      <p-dropdown styleClass="w-full" [options]="categories" [(ngModel)]="selected_category" optionLabel="name" appendTo="body" placeholder="Seleccione una Categoria"></p-dropdown>
     </div>
     <div class="col-4">
       <label for="">Nombre del Evento:</label>
@@ -16,7 +16,7 @@
       <label for="">Fecha del Evento:</label>
     </div>
     <div *ngIf="edit_event" class="col-8">
-      <p-calendar  class="w-full" [(ngModel)]="date" [iconDisplay]="'input'" [showIcon]="true" appendTo="body"></p-calendar>
+      <p-calendar  styleClass="w-full" [(ngModel)]="date" [iconDisplay]="'input'" [showIcon]="true" appendTo="body"></p-calendar>
     </div>
     <div class="col-12">
       <label for="">Notas:</label> <br>

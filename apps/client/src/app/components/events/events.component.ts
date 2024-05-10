@@ -88,6 +88,8 @@ export class EventsComponent implements OnInit {
     if (add_event) {
       this.eventsService.postEvent(add_event).subscribe((res: any) => {
         console.log(res);
+        this.dialogRef.close();
+        this.shareDataService.sendData(res.statusCode === 201);
       });
     }
   }
@@ -106,7 +108,6 @@ export class EventsComponent implements OnInit {
       this.eventsService
         .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
         .subscribe((res: any) => {
-          console.log(res);
           this.dialogRef.close();
           this.shareDataService.sendData(res.statusCode === 200);
         });

@@ -20,9 +20,8 @@ import { Events } from 'apps/shared/models/events.interface';
 export class EventsController {
   constructor(private eventsService: EventsService) {}
 
-  @Get()
+  @Get(':time')
   async getAllEvents() {
-    console.log('getevents');
     return await this.eventsService.getAllEvents();
   }
 
