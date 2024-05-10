@@ -1,6 +1,6 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Category } from './../../../../../shared/models/category.interface';
+import { Category } from '../../../../../../shared/src/lib/models/category.interface';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
@@ -9,12 +9,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
-import { Events } from 'apps/shared/models/events.interface';
+import { Events } from 'shared/src/lib/models/events.interface';
 import { EventsService } from '../../services/events/events.service';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  DynamicDialogConfig,
+  DynamicDialogModule,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { ShareDataService } from '../../services/data/share-data.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'event-trackr-events',
@@ -28,13 +33,19 @@ import { ShareDataService } from '../../services/data/share-data.service';
     ButtonModule,
     CalendarModule,
     ToastModule,
+    DynamicDialogModule,
   ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss',
-  providers: [CategoriesService],
+  providers: [
+    CategoriesService,
+    DynamicDialogRef,
+    DynamicDialogConfig,
+    MessageService,
+  ],
 })
 export class EventsComponent implements OnInit {
-  categories: any;
+  categories: Category[] = [];
   selected_category: Category = {
     id: 0,
     name: '',
@@ -56,7 +67,6 @@ export class EventsComponent implements OnInit {
     this.getCategories();
     this.event = this.dialogData.data.event;
     this.edit_event = this.dialogData.data.edit_event;
-    console.log(this.edit_event);
 
     if (this.edit_event) {
       this.name =
@@ -74,6 +84,7 @@ export class EventsComponent implements OnInit {
   async getCategories() {
     this.categoriesService.getCategories().subscribe((categories: any) => {
       this.categories = categories.result;
+      console.log(this.categories);
     });
   }
 
@@ -104,7 +115,6 @@ export class EventsComponent implements OnInit {
     };
 
     if (update_event) {
-      console.log(update_event);
       this.eventsService
         .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
         .subscribe((res: any) => {

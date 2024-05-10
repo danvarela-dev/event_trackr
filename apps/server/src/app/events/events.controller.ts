@@ -13,7 +13,8 @@ import {
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { ApiTags } from '@nestjs/swagger';
-import { Events } from 'apps/shared/models/events.interface';
+import { Events } from '@event-trackr/shared';
+import { AuthGuard } from '../guards/auth.guard';
 
 @ApiTags('Events')
 @Controller('events')

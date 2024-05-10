@@ -1,10 +1,31 @@
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="container">
-      <a href="/" class="brand">
-      </a>
-      <ul class="nav">
-      </ul>
+<div class="layout-container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <p-avatar
+        icon="pi pi-user"
+        styleClass="mr-2"
+        size="large"
+        [style]="{ 'background-color': '#685cfe', color: '#ffffff' }"
+        (click)="openMenu($event)"
+      ></p-avatar>
+      <span> Admin </span>
+    </div>
+    <div class="sidebar-items">
+      @for (item of sidebarItems; track item.id) {
+      <div class="sidebar-item">
+        <p-button
+          [text]="true"
+          [label]="item.label"
+          [icon]="item.icon"
+          [routerLink]="item.link"
+          [ngClass]="{ 'active-link': isRouteActive(item.link) }"
+        ></p-button>
+      </div>
+      }
     </div>
   </div>
+  <div class="layout-content">
+    <ng-content></ng-content>
+  </div>
 </div>
+<p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
