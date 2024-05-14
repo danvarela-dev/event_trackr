@@ -16,6 +16,7 @@ import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
 import { Subscription } from 'rxjs';
 import esLocale from '@fullcalendar/core/locales/es-us';
+import { Events } from '@event-trackr/shared';
 
 @Component({
   selector: 'event-trackr-home',
@@ -73,6 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addEvent(event: any) {
+    console.log('event in home', event);
     this.ref = this.dialogService.open(EventsComponent, {
       header: 'Crear Nuevo Evento',
       width: '50%',

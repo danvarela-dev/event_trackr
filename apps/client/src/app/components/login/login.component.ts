@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         finalize(() => {
           this.authenticationService.getUser().subscribe(user => {
+            console.log(user);
             this.authenticationService.loggedInUser$.next(user.result);
           });
         }),
