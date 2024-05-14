@@ -37,9 +37,11 @@ export class EventsComponent implements OnInit {
   selected_category: Category = {
     id: 0,
     name: '',
+    color: '',
   };
   name: string;
   notes: string;
+  source: string;
   event: any;
   edit_event: boolean;
   date: Date;
@@ -59,6 +61,7 @@ export class EventsComponent implements OnInit {
     console.log(this.edit_event);
 
     if (this.edit_event) {
+      console.log(this.event);
       this.name =
         this.event.event._def.title.indexOf(' ') !== -1
           ? this.event.event._def.title.substring(
@@ -68,6 +71,7 @@ export class EventsComponent implements OnInit {
       this.selected_category = this.event.event._def.extendedProps.category;
       this.notes = this.event.event._def.extendedProps.notes;
       this.date = new Date(this.event.event.startStr);
+      this.source = this.event.event._def.extendedProps.source;
     }
   }
 
@@ -83,6 +87,7 @@ export class EventsComponent implements OnInit {
       event_date: this.event.date,
       category: this.selected_category,
       notes: this.notes,
+      source: this.source,
     };
 
     if (add_event) {

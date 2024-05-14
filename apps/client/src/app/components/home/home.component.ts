@@ -149,10 +149,11 @@ export class HomeComponent implements OnInit, OnDestroy {
             ...this.events.map(event => ({
               title: this.assignIcon(event.category.id).icon + event.name,
               date: event.event_date,
-              color: this.assignIcon(event.category.id).color,
+              color: event.category.color,
               db_id: event.id,
               category: event.category,
               notes: event.notes,
+              source: event.source,
             })),
           ],
         };

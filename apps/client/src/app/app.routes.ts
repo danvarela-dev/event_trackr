@@ -29,4 +29,12 @@ export const appRoutes: Route[] = [
         m => m.EventsComponent,
       ),
   },
+  {
+    path: 'event_summary',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./components/event-summary/event-summary.component').then(
+        m => m.EventSummaryComponent,
+      ),
+  },
 ];

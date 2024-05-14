@@ -1,0 +1,51 @@
+<div class="events">
+  <h1>Eventos</h1>
+  <p-table [value]="eventTypes" dataKey="id" [scrollable]="true" scrollHeight="550px">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Evento Tipo</th>
+        <th>Total Eventos</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-eventType let-expanded="expanded">
+      <tr>
+        <td class="align-center">
+          <p-button type="button" [pRowToggler]="eventType" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
+          {{ eventType.type }}
+        </td>
+        <td>{{ getEventCount(eventType.id) }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-eventType>
+      <tr>
+        <td colspan="2">
+          <p-table [value]="filterEvents(eventType.id)" dataKey="id">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Evento</th>
+                <th>Fecha</th>
+                <th>Notas</th>
+                <th>Categoria</th>
+                <th>Fuente</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-event>
+              <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.event_date.split('T')[0] }}</td>
+                <td>{{ event.notes }}</td>
+                <td>{{ event.category.name }}</td>
+                <td>
+                  <a href="{{ event.source }}" target="_blank" title="{{ event.source }}">
+                    <p-button icon="pi pi-external-link" styleClass="p-button-rounded p-button-text"></p-button>
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

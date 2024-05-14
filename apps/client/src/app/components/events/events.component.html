@@ -13,16 +13,22 @@
     <div class="col-8">
       <input class="w-full" type="text" pInputText [(ngModel)]="name">
     </div>
+    <div class="col-4">
+      <label>Fuente de origen: </label>
+    </div>
+    <div class="col-8">
+      <input class="w-full" type="text" pInputText [(ngModel)]="source">
+    </div>
     <div *ngIf="edit_event" class="col-4">
-      <label for="">Fecha del Evento:</label>
+      <label class="w-full" for="">Fecha del Evento:</label>
     </div>
     <div *ngIf="edit_event" class="col-8">
-      <p-calendar class="w-full" [(ngModel)]="date" [iconDisplay]="'input'" [showIcon]="true"
+      <p-calendar styleClass="w-full" [(ngModel)]="date" [iconDisplay]="'input'" [showIcon]="true"
                   appendTo="body"></p-calendar>
     </div>
     <div class="col-12">
       <label for="">Notas:</label> <br>
-      <textarea class="w-full" rows="5" cols="30" pInputTextarea [(ngModel)]="notes"></textarea>
+      <textarea class="w-full" rows="3" cols="30" pInputTextarea [(ngModel)]="notes"></textarea>
     </div>
   </div>
   <div class="footer text-right">

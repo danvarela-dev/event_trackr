@@ -1,4 +1,4 @@
-import { Category } from '@event-trackr/shared';
+import { Category } from './category.interface';
 
 export interface Events {
   id?: number;
@@ -6,4 +6,6 @@ export interface Events {
   category: Category;
   event_date: Date;
   notes: string;
+  eventType?: number;
+  source?: string;
 }
