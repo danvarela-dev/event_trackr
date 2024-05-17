@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'event-trackr-login',
@@ -33,7 +34,10 @@ export class LoginComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private destroyRef: DestroyRef,
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -41,28 +45,30 @@ export class LoginComponent implements OnInit {
 
   initForm(): void {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['admin', Validators.required],
+      password: ['admin', Validators.required],
     });
   }
 
   login(): void {
+    debugger;
     this.authenticationService
       .login(this.loginForm.value)
       .pipe(
         finalize(() => {
-          this.authenticationService.getUser().subscribe(user => {
-            this.authenticationService.loggedInUser$.next(user.result);
-          });
+          this.authenticationService
+            .getUser()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(({ result }) => {
+              debugger;
+              this.authenticationService.loggedInUser$.next(result);
+              this.authenticationService.loggedIn$.next(true);
+            });
         }),
       )
-      .subscribe(({ status, result }) => {
-        this.authenticationService.isLoggedIn = status;
-
-        if (status) {
-          localStorage.setItem('access_token', result.access_token);
-
-          this.router.navigate(['/home']);
+      .subscribe(res => {
+        if (res.status) {
+          this.router.navigate(['/cms/home']);
         }
       });
   }

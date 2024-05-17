@@ -1,32 +1,37 @@
 import { Route } from '@angular/router';
 import { authGuard } from './guards/guards/auth.guard';
+import { LoginComponent } from './components/login/login.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 export const appRoutes: Route[] = [
   {
     path: 'login',
-    loadComponent: () =>
-      import('./components/login/login.component').then(m => m.LoginComponent),
+    component: LoginComponent,
   },
   {
-    path: 'home',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/home/home.component').then(m => m.HomeComponent),
-  },
-  {
-    path: 'categories',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/categories/categories.component').then(
-        m => m.CategoriesComponent,
-      ),
-  },
-  {
-    path: 'events',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/events/events.component').then(
-        m => m.EventsComponent,
-      ),
+    path: 'cms',
+    component: LayoutComponent,
+    // canActivate: [authGuard],
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./components/home/home.component').then(m => m.HomeComponent),
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('./components/categories/categories.component').then(
+            m => m.CategoriesComponent,
+          ),
+      },
+      {
+        path: 'events',
+        loadComponent: () =>
+          import('./components/events/events.component').then(
+            m => m.EventsComponent,
+          ),
+      },
+    ],
   },
 ];

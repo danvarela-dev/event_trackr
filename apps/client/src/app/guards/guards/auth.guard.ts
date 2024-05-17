@@ -1,17 +1,21 @@
-import { inject } from '@angular/core';
+import { WritableSignal, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { map, take, of } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
+  const accessToken = getAccessToken();
 
-  const user = authenticationService.getUser();
-
-  if (!user) {
+  if (!accessToken) {
     router.navigate(['/login']);
-    return false;
+  } else {
+    router.navigate(['/cms/home']);
   }
 
-  return true;
+  return of(!!accessToken);
 };
+
+function getAccessToken() {
+  return sessionStorage.getItem('access_token') ?? null;
+}

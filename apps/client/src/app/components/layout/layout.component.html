@@ -24,8 +24,10 @@
       }
     </div>
   </div>
+
   <div class="layout-content">
-    <ng-content></ng-content>
+    <router-outlet></router-outlet>
   </div>
 </div>
+
 <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>

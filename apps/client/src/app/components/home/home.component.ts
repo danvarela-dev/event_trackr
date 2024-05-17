@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FullCalendarComponent,
@@ -15,8 +13,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
 import { finalize, Subscription } from 'rxjs';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { Events } from 'shared/src/lib/models/events.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'event-trackr-home',
@@ -57,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ref: DynamicDialogRef | undefined;
 
   ngOnInit(): void {
+    console.log('sss');
     this.getEvents();
     if (this.events) {
       this.calendarOptions = {
@@ -140,7 +139,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: any) => {
         this.events = res.result;
-        console.log(this.events);
       });
   }
 
