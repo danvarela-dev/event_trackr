@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    debugger;
     this.authenticationService
       .login(this.loginForm.value)
       .pipe(
@@ -60,15 +59,20 @@ export class LoginComponent implements OnInit {
             .getUser()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(({ result }) => {
-              debugger;
               this.authenticationService.loggedInUser$.next(result);
               this.authenticationService.loggedIn$.next(true);
             });
         }),
       )
-      .subscribe(res => {
-        if (res.status) {
-          this.router.navigate(['/cms/home']);
+      .subscribe(({ status, result }) => {
+        if (status) {
+          localStorage.setItem('access_token', result.access_token);
+
+          this.router.navigate(['/home']);
+          this.authenticationService.getUser().subscribe(user => {
+            console.log(user);
+            this.authenticationService.loggedInUser$.next(user.result);
+          });
         }
       });
   }

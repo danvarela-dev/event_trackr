@@ -7,4 +7,7 @@ export class CategoriesEntity {
 
   @Column()
   name: string;
+
+  @Column()
+  color: string;
 }

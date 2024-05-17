@@ -1,3 +1,4 @@
+import { Category } from '@event-trackr/shared';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @nx/enforce-module-boundaries */
 import { HttpClient } from '@angular/common/http';
@@ -12,5 +13,9 @@ export class CategoriesService {
 
   getCategories(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/categories`);
+  }
+
+  postCategory(category: Category): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/categories`, { category });
   }
 }

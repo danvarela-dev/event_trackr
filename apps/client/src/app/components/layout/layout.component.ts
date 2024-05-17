@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { EventsComponent } from '../events/events.component';
@@ -8,8 +8,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { Observable } from 'rxjs';
-import { LoginComponent } from '../login/login.component';
+import { Observable, filter } from 'rxjs';
+import { EventSummaryComponent } from '../event-summary/event-summary.component';
 
 @Component({
   selector: 'event-trackr-layout',
@@ -18,6 +18,7 @@ import { LoginComponent } from '../login/login.component';
     CommonModule,
     SidebarModule,
     EventsComponent,
+    EventSummaryComponent,
     RouterLink,
     ButtonModule,
     AvatarModule,
@@ -27,7 +28,7 @@ import { LoginComponent } from '../login/login.component';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
   title = 'Event Trackr';
   @ViewChild('menu') menu: Menu;
 
@@ -48,7 +49,7 @@ export class LayoutComponent implements OnInit {
       id: 2,
       label: 'Eventos',
       icon: 'pi pi-fw pi-calendar',
-      link: '/cms/events',
+      link: 'event_summary',
     },
     {
       id: 3,

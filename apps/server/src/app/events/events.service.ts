@@ -33,6 +33,7 @@ export class EventsService {
       new_event.category = event.category;
       new_event.event_date = event.event_date;
       new_event.notes = event.notes;
+      new_event.source = event.source;
       await this.eventsRepository.save(new_event);
       return true;
     } catch (error) {

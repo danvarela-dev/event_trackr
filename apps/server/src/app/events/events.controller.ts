@@ -21,9 +21,8 @@ import { AuthGuard } from '../guards/auth.guard';
 export class EventsController {
   constructor(private eventsService: EventsService) {}
 
-  @Get()
+  @Get(':time')
   async getAllEvents() {
-    console.log('getevents');
     return await this.eventsService.getAllEvents();
   }
 
