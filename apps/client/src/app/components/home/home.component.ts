@@ -12,12 +12,10 @@ import { EventsService } from '../../services/events/events.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
-import { Subscription } from 'rxjs';
 import esLocale from '@fullcalendar/core/locales/es-us';
-import { Events } from '@event-trackr/shared';
-import { finalize, Subscription } from 'rxjs';
-import { Events } from 'shared/src/lib/models/events.interface';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Events } from '@event-trackr/shared';
 
 @Component({
   selector: 'event-trackr-home',
