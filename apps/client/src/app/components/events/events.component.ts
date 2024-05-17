@@ -61,7 +61,6 @@ export class EventsComponent implements OnInit {
     console.log(this.edit_event);
 
     if (this.edit_event) {
-      console.log(this.event);
       this.name =
         this.event.event._def.title.indexOf(' ') !== -1
           ? this.event.event._def.title.substring(

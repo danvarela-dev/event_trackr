@@ -73,7 +73,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addEvent(event: any) {
-    console.log('event in home', event);
     this.ref = this.dialogService.open(EventsComponent, {
       header: 'Crear Nuevo Evento',
       width: '50%',

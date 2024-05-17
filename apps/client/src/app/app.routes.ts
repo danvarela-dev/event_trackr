@@ -19,6 +19,13 @@ export const appRoutes: Route[] = [
           import('./components/home/home.component').then(m => m.HomeComponent),
       },
       {
+        path: 'event_summary',
+        loadComponent: () =>
+          import('./components/event-summary/event-summary.component').then(
+            m => m.EventSummaryComponent,
+          ),
+      },
+      {
         path: 'categories',
         loadComponent: () =>
           import('./components/categories/categories.component').then(
@@ -33,13 +40,5 @@ export const appRoutes: Route[] = [
           ),
       },
     ],
-  },
-  {
-    path: 'event_summary',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/event-summary/event-summary.component').then(
-        m => m.EventSummaryComponent,
-      ),
   },
 ];

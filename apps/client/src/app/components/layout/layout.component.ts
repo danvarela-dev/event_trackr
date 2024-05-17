@@ -8,7 +8,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { Observable, filter } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EventSummaryComponent } from '../event-summary/event-summary.component';
 
 @Component({
@@ -23,7 +23,6 @@ import { EventSummaryComponent } from '../event-summary/event-summary.component'
     ButtonModule,
     AvatarModule,
     MenuModule,
-    LoginComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
@@ -49,7 +48,7 @@ export class LayoutComponent {
       id: 2,
       label: 'Eventos',
       icon: 'pi pi-fw pi-calendar',
-      link: 'event_summary',
+      link: '/cms/event_summary',
     },
     {
       id: 3,
