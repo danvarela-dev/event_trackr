@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     eventDisplay: 'block',
     locale: esLocale,
     dayMaxEvents: 3,
+    height: '80vh',
   };
 
   events: Events[];
