@@ -24,4 +24,7 @@ export class EventsEntity {
   @ManyToOne(() => CategoriesEntity, category => category.id)
   @JoinColumn({ name: 'category_id' })
   category: CategoriesEntity;
+
+  @Column()
+  source: string;
 }

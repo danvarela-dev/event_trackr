@@ -6,10 +6,10 @@ import { EventsEntity } from '../src/app/events/events.entity';
 
 export const baseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: 'localhost',
+  host: 'vps-96efac4c.vps.ovh.ca',
   port: 3306,
-  username: 'root',
-  password: 'admin',
+  username: 'kevin.estrada',
+  password: 'Emco2023**',
   database: 'event_trackr',
   entities: [UsersEntity, CategoriesEntity, PeopleEntity, EventsEntity],
   synchronize: false,

@@ -10,6 +10,7 @@ import { User } from '@event-trackr/shared';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { Observable, filter } from 'rxjs';
+import { EventSummaryComponent } from '../event-summary/event-summary.component';
 
 @Component({
   selector: 'event-trackr-layout',
@@ -18,6 +19,7 @@ import { Observable, filter } from 'rxjs';
     CommonModule,
     SidebarModule,
     EventsComponent,
+    EventSummaryComponent,
     RouterLink,
     ButtonModule,
     AvatarModule,
@@ -44,7 +46,7 @@ export class LayoutComponent {
       id: 2,
       label: 'Eventos',
       icon: 'pi pi-fw pi-calendar',
-      link: 'events',
+      link: 'event_summary',
     },
     {
       id: 3,

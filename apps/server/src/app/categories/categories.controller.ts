@@ -1,4 +1,5 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { CategoriesEntity } from './categories.entity';
 import { CategoriesService } from './categories.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,8 +20,8 @@ export class CategoriesController {
   }
 
   @Post()
-  async createCategory(event: CategoriesEntity): Promise<CategoriesEntity> {
-    return await this.categoriesService.createCategory(event);
+  async createCategory(@Body() event: any): Promise<CategoriesEntity> {
+    return await this.categoriesService.createCategory(event.category);
   }
 
   @Put(':id')
