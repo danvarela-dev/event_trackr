@@ -22,6 +22,7 @@
         ],
         "styles": [
           "apps/client/src/styles.scss",
+          "node_modules/primeflex/primeflex.css",
           "apps/client/src/_colors.scss"
         ],
         "scripts": [],

@@ -1,25 +1,34 @@
 <div class="login-container">
   <div class="login">
     <div class="logo">
-        <span class="icon">
-          <i class="fa fa-calendar"></i>
-        </span>
+      <span class="icon">
+        <i class="fa fa-calendar"></i>
+      </span>
       <div class="text">
         <span>Event Trackr</span>
       </div>
     </div>
 
     <form class="login-form" [formGroup]="loginForm">
-        <span class="p-float-label">
-          <input pInputText id="username" formControlName="username" />
-          <label for="username">Username</label>
+      <span class="p-float-label">
+        <input pInputText id="username" formControlName="username" />
+        <label for="username">Username</label>
       </span>
       <span class="p-float-label">
-        <input pInputText type="password" formControlName="password" id="password">
+        <input
+          pInputText
+          type="password"
+          formControlName="password"
+          id="password"
+        />
         <label for="password">Contraseña</label>
       </span>
       <div class="button">
-        <p-button label="Iniciar Sesion" (click)="login()" [disabled]="loginForm.invalid"></p-button>
+        <p-button
+          label="Iniciar Sesion"
+          (click)="login()"
+          [disabled]="loginForm.invalid"
+        ></p-button>
       </div>
     </form>
   </div>
