@@ -106,9 +106,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   editEvent(event: EventInput) {
-    debugger;
     this.ref = this.dialogService.open(EventsComponent, {
-      header: 'Modificar Eventosss',
+      header: 'Modificar Eventos',
       width: '50%',
       modal: true,
       data: {
