@@ -1,9 +1,7 @@
-import { Component, OnInit, WritableSignal, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
-import { AuthenticationService } from './services/authentication/authentication.service';
 import { AsyncPipe } from '@angular/common';
-import { Observable, take } from 'rxjs';
 
 @Component({
   standalone: true,

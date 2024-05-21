@@ -11,7 +11,7 @@ export const appRoutes: Route[] = [
   {
     path: 'cms',
     component: LayoutComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: 'home',

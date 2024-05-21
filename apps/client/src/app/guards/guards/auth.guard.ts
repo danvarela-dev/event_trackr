@@ -1,7 +1,6 @@
-import { WritableSignal, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { map, take, of } from 'rxjs';
+import { of } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
@@ -9,11 +8,10 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   if (!accessToken) {
     router.navigate(['/login']);
-  } else {
-    router.navigate(['/cms/home']);
+    return false;
   }
 
-  return of(!!accessToken);
+  return true;
 };
 
 function getAccessToken() {

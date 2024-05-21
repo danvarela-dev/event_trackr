@@ -3,7 +3,7 @@ import {
   FullCalendarComponent,
   FullCalendarModule,
 } from '@fullcalendar/angular';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       : { icon: '', color: '' };
   }
 
-  addEvent(event: any) {
+  addEvent(event: EventInput) {
     this.ref = this.dialogService.open(EventsComponent, {
       header: 'Crear Nuevo Evento',
       width: '50%',
@@ -105,9 +105,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  editEvent(event: any) {
+  editEvent(event: EventInput) {
+    debugger;
     this.ref = this.dialogService.open(EventsComponent, {
-      header: 'Modificar Evento',
+      header: 'Modificar Eventosss',
       width: '50%',
       modal: true,
       data: {

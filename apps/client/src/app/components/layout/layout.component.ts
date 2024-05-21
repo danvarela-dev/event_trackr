@@ -33,9 +33,6 @@ export class LayoutComponent {
 
   router = inject(Router);
   authService = inject(AuthenticationService);
-  isLoggedIn$: Observable<boolean>;
-
-  showLogin = true;
 
   sidebarItems: { id: number; label: string; icon: string; link: string }[] = [
     {
@@ -72,10 +69,6 @@ export class LayoutComponent {
       },
     },
   ];
-
-  ngOnInit(): void {
-    this.isLoggedIn$ = this.authService.loggedIn$.asObservable();
-  }
 
   isRouteActive(link: string): boolean {
     const options: IsActiveMatchOptions = {
