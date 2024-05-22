@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 export const appRoutes: Route[] = [
+  { path: '**', redirectTo: 'login' },
   {
     path: 'login',
     component: LoginComponent,
