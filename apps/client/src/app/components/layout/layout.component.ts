@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { EventsComponent } from '../events/events.component';
@@ -27,12 +27,15 @@ import { EventSummaryComponent } from '../event-summary/event-summary.component'
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
   title = 'Event Trackr';
   @ViewChild('menu') menu: Menu;
 
   router = inject(Router);
   authService = inject(AuthenticationService);
+  isLoggedIn$: Observable<boolean>;
+
+  showLogin = true;
 
   sidebarItems: { id: number; label: string; icon: string; link: string }[] = [
     {
@@ -69,6 +72,10 @@ export class LayoutComponent {
       },
     },
   ];
+
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.loggedIn$.asObservable();
+  }
 
   isRouteActive(link: string): boolean {
     const options: IsActiveMatchOptions = {
