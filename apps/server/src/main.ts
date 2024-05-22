@@ -10,10 +10,6 @@ async function bootstrap() {
     cors: {
       origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      preflightContinue: false,
-      optionsSuccessStatus: 204,
-      allowedHeaders: 'Content-Type, Accept',
-      credentials: false,
     },
   });
   const globalPrefix = 'api';
