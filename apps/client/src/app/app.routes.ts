@@ -2,6 +2,8 @@ import { Route } from '@angular/router';
 import { authGuard } from './guards/guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 export const appRoutes: Route[] = [
   { path: '**', redirectTo: 'login' },
@@ -43,3 +45,9 @@ export const appRoutes: Route[] = [
     ],
   },
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(appRoutes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
