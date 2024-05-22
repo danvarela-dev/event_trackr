@@ -1,5 +1,4 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { AppRoutingModule } from './../../../client/src/app/app.routes';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { baseConfig } from '../../config/connection.config';
@@ -18,7 +17,6 @@ import { AuthGuard } from './guards/auth.guard';
     PeopleModule,
     UsersModule,
     AuthModule,
-    AppRoutingModule,
   ],
   controllers: [],
   providers: [
