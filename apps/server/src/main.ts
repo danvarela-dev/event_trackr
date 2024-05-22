@@ -6,7 +6,16 @@ import { swaggerConfig } from '../config/swagger.config';
 import { ResponseInterceptor } from './app/interceptors/response-interceptor.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
+      allowedHeaders: 'Content-Type, Accept',
+      credentials: false,
+    },
+  });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new ResponseInterceptor());
