@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FullCalendarComponent,
   FullCalendarModule,
 } from '@fullcalendar/angular';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -14,8 +12,9 @@ import { EventsService } from '../../services/events/events.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
-import { Subscription } from 'rxjs';
 import esLocale from '@fullcalendar/core/locales/es-us';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 import { Events } from '@event-trackr/shared';
 
 @Component({
@@ -38,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     eventDisplay: 'block',
     locale: esLocale,
     dayMaxEvents: 3,
+    height: '80vh',
   };
 
   events: Events[];
@@ -73,8 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       : { icon: '', color: '' };
   }
 
-  addEvent(event: any) {
-    console.log('event in home', event);
+  addEvent(event: EventInput) {
     this.ref = this.dialogService.open(EventsComponent, {
       header: 'Crear Nuevo Evento',
       width: '50%',
@@ -106,9 +105,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  editEvent(event: any) {
+  editEvent(event: EventInput) {
     this.ref = this.dialogService.open(EventsComponent, {
-      header: 'Modificar Evento',
+      header: 'Modificar Eventos',
       width: '50%',
       modal: true,
       data: {
