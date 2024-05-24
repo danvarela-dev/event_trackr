@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     locale: esLocale,
     dayMaxEvents: 3,
     height: '80vh',
+    timeZone: 'America/Tegucigalpa',
   };
 
   events: Events[];
