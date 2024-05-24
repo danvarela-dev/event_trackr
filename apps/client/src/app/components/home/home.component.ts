@@ -168,8 +168,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         rruleString = `DTSTART:${
           originalDate.toISOString().replace(/[-:]/g, '').split('.')[0]
         }Z\nRRULE:FREQ=YEARLY;COUNT=${event.recursion_unit}`;
-      } else {
-        rruleString = '';
       }
 
       finalEvents.push({
