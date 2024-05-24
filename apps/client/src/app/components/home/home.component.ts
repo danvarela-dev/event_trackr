@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FullCalendarComponent,
@@ -5,6 +6,7 @@ import {
 } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import rrulePlugin from '@fullcalendar/rrule';
 import interactionPlugin from '@fullcalendar/interaction';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EventsComponent } from '../events/events.component';
@@ -29,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent;
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, interactionPlugin],
+    plugins: [dayGridPlugin, interactionPlugin, rrulePlugin],
     dateClick: this.addEvent.bind(this),
     eventClick: this.editEvent.bind(this),
     displayEventTime: false,
@@ -59,18 +61,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getEvents();
-  }
-
-  assignIcon(category: number) {
-    return category === 1
-      ? { icon: '🎂 ', color: '#90EE90' }
-      : category === 2
-      ? { icon: '👪 ', color: '#FFA500' }
-      : category === 3
-      ? { icon: '👓 ', color: '#9370DB' }
-      : category === 4
-      ? { icon: '❔ ', color: '#808080' }
-      : { icon: '', color: '' };
   }
 
   addEvent(event: EventInput) {
@@ -139,25 +129,62 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getEvents() {
     this.eventsService.getEvents().subscribe((res: any) => {
-      this.events = res.result;
+      this.events = this.processEvents(res.result);
       console.log(this.events);
       if (this.events) {
         this.calendarOptions = {
           ...this.calendarOptions,
           events: [
             ...this.events.map(event => ({
-              title: this.assignIcon(event.category.id).icon + event.name,
+              title: event.category.icon + event.name,
               date: event.event_date,
               color: event.category.color,
               db_id: event.id,
               category: event.category,
               notes: event.notes,
               source: event.source,
+              recursion: event.recursion,
+              recursionUnit: event.recursion_unit,
+              rrule: event.rrule,
             })),
           ],
         };
       }
     });
+  }
+
+  processEvents(events: Events[]) {
+    const finalEvents: Events[] = [];
+
+    events.forEach(event => {
+      const originalDate = new Date(event.event_date);
+
+      let rruleString;
+      if (event.recursion.id === 1) {
+        rruleString = `DTSTART:${
+          originalDate.toISOString().replace(/[-:]/g, '').split('.')[0]
+        }Z\nRRULE:FREQ=MONTHLY;COUNT=${event.recursion_unit}`;
+      } else if (event.recursion.id === 2) {
+        rruleString = `DTSTART:${
+          originalDate.toISOString().replace(/[-:]/g, '').split('.')[0]
+        }Z\nRRULE:FREQ=YEARLY;COUNT=${event.recursion_unit}`;
+      }
+
+      finalEvents.push({
+        id: event.id,
+        name: event.name,
+        category: event.category,
+        event_date: event.event_date,
+        notes: event.notes,
+        eventType: event.eventType,
+        source: event.source,
+        recursion: event.recursion,
+        recursion_unit: event.recursion_unit,
+        rrule: rruleString,
+      });
+    });
+
+    return finalEvents;
   }
 
   ngOnDestroy(): void {

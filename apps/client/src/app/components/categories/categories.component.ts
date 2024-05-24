@@ -9,6 +9,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'event-trackr-categories',
@@ -20,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ButtonModule,
     InputTextModule,
+    PickerComponent,
   ],
   providers: [CategoriesService],
   templateUrl: './categories.component.html',
@@ -29,6 +31,8 @@ export class CategoriesComponent implements OnInit {
   categories: Category[];
   color: string;
   disabled: boolean = true;
+  showEmojis: boolean[] = [];
+  selectedEmoji: string = '😀';
   constructor(private categoriesService: CategoriesService) {}
 
   ngOnInit(): void {
@@ -39,6 +43,7 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.getCategories().subscribe((category: any) => {
       this.categories = category.result;
       console.log(this.categories);
+      this.showEmojis = this.categories.map(() => false);
     });
   }
 
@@ -57,5 +62,15 @@ export class CategoriesComponent implements OnInit {
 
   editCancel() {
     this.disabled = true;
+  }
+
+  toggleEmojis(index: number) {
+    this.showEmojis[index] = !this.showEmojis[index];
+  }
+
+  addEmoji(event: any, index: number) {
+    console.log(event);
+    this.categories[index].icon = event.emoji.native;
+    this.showEmojis[index] = false;
   }
 }

@@ -8,6 +8,7 @@ import { PeopleModule } from './people/people.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
+import { RecursionTypeModule } from './recursion_type/recursion_type.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({ ...baseConfig }),
@@ -16,8 +17,8 @@ import { AuthGuard } from './guards/auth.guard';
     PeopleModule,
     UsersModule,
     AuthModule,
+    RecursionTypeModule,
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_GUARD,

@@ -23,6 +23,7 @@ export class CategoriesService {
   }
 
   async createCategory(event: CategoriesEntity): Promise<CategoriesEntity> {
+    console.log(event);
     return await this.categoriesEntityRepository.save(event);
   }
 

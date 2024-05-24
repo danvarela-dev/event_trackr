@@ -12,6 +12,7 @@
         <th>Categoria</th>
         <th>Color</th>
         <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-category let-editing="editing" let-ri="rowIndex">
@@ -29,6 +30,24 @@
         </td>
         <td>
           <p-colorPicker [(ngModel)]="category.color" [disabled]="disabled"/>
+        </td>
+        <td>
+          <p-button
+            *ngIf="!showEmojis[ri]"
+            severity="secondary"
+            [label]="category.icon || selectedEmoji"
+            [disabled]="disabled"
+            (click)="toggleEmojis(ri)"
+            [style]="{padding: '0.25rem 0.30rem'}"
+          ></p-button>
+          <emoji-mart
+            *ngIf="showEmojis[ri]"
+            title="Pick your emoji…"
+            emoji="point_up"
+            [showPreview]="false"
+            [emojiSize]="16"
+            (emojiSelect)="addEmoji($event,ri)"
+          ></emoji-mart>
         </td>
         <td>
           <div class="flex align-items-center justify-content-center gap-2">

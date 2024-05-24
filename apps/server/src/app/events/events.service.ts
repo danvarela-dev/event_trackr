@@ -13,9 +13,13 @@ export class EventsService {
   ) {}
 
   async getAllEvents(): Promise<EventsEntity[]> {
-    return await this.eventsRepository.find({
-      relations: ['category'],
-    });
+    try {
+      return await this.eventsRepository.find({
+        relations: ['category', 'recursion'],
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getEventById(id: number): Promise<EventsEntity | undefined> {

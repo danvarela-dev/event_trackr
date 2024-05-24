@@ -1,5 +1,24 @@
 <div class="container">
   <div class="grid align-items-center">
+    <div class="col-4 mt-3">
+      <label>Repetir Evento:</label>
+    </div>
+    <div class="col-5 mt-3">
+      <p-dropdown
+        [options]="recursionTypes"
+        [(ngModel)]="selectedRecursion"
+        optionLabel="recursion_type"
+        appendTo="body"
+        styleClass="w-full"
+      ></p-dropdown>
+
+    </div>
+    <div class="col-3 mt-3">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-hashtag"/>
+        <input type="number" class="w-full" pInputText [(ngModel)]="recursionUnit">
+      </p-iconField>
+    </div>
     <div class="col-4">
       <label for="">Selccione Categoria</label>
     </div>
