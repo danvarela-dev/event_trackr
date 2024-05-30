@@ -42,20 +42,16 @@ export class CategoriesComponent implements OnInit {
   getCategories() {
     this.categoriesService.getCategories().subscribe((category: any) => {
       this.categories = category.result;
-      console.log(this.categories);
       this.showEmojis = this.categories.map(() => false);
     });
   }
 
   editCategory(category: Category) {
-    console.log('this not', category);
     this.disabled = false;
   }
 
   saveCategory(category: Category) {
-    console.log(category);
     this.categoriesService.postCategory(category).subscribe(res => {
-      console.log(res);
       this.disabled = true;
     });
   }
@@ -69,7 +65,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   addEmoji(event: any, index: number) {
-    console.log(event);
     this.categories[index].icon = event.emoji.native;
     this.showEmojis[index] = false;
   }

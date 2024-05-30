@@ -1,4 +1,4 @@
 export interface RecursionTypeI {
   id: number;
-  recursionType: string;
+  recursion_type: string;
 }

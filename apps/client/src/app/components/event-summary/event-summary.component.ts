@@ -42,7 +42,6 @@ export class EventSummaryComponent implements OnInit {
     this.eventsService.getEvents().subscribe((event: any) => {
       this.events = event.result;
       this.classifyEvents(this.events);
-      console.log(this.events);
     });
   }
 
@@ -82,7 +81,5 @@ export class EventSummaryComponent implements OnInit {
         event.eventType = 3;
       }
     }
-
-    console.log(events);
   }
 }

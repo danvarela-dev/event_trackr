@@ -1,4 +1,4 @@
 <div *ngIf="calendarOptions" class="container-calendar">
   <full-calendar [options]="calendarOptions"></full-calendar>
 </div>
-<p-toast></p-toast>
+<p-toast *ngIf="event_success" ></p-toast>

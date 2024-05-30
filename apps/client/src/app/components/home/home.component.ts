@@ -94,6 +94,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }, 100);
     });
+
+    this.shareDataService.sendData(false);
   }
 
   editEvent(event: EventInput) {
@@ -126,12 +128,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }, 100);
     });
+    this.shareDataService.sendData(false);
   }
 
   getEvents() {
     this.eventsService.getEvents().subscribe((res: any) => {
       this.events = this.processEvents(res.result);
-      console.log(this.events);
       if (this.events) {
         this.calendarOptions = {
           ...this.calendarOptions,
@@ -147,6 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               recursion: event.recursion,
               recursionUnit: event.recursion_unit,
               rrule: event.rrule,
+              name: event.name,
             })),
           ],
         };

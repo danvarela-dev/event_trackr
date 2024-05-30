@@ -38,6 +38,8 @@ export class EventsService {
       new_event.event_date = event.event_date;
       new_event.notes = event.notes;
       new_event.source = event.source;
+      new_event.recursion = event.recursion;
+      new_event.recursion_unit = event.recursion_unit;
       await this.eventsRepository.save(new_event);
       return true;
     } catch (error) {
@@ -58,7 +60,6 @@ export class EventsService {
         },
       });
     } catch (error) {
-      console.log(error);
       return undefined;
     }
   }

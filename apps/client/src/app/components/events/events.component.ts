@@ -57,7 +57,7 @@ export class EventsComponent implements OnInit {
   edit_event: boolean;
   date: Date;
   recursionTypes: RecursionTypeI[];
-  selectedRecursion: RecursionTypeI = { id: 0, recursionType: '' };
+  selectedRecursion: RecursionTypeI = { id: 0, recursion_type: '' };
   recursionUnit: number;
   constructor(
     private categoriesService: CategoriesService,
@@ -71,18 +71,11 @@ export class EventsComponent implements OnInit {
   ngOnInit(): void {
     this.getCategories();
     this.getRecursionTypes();
-    console.log(this.dialogData.data);
     this.event = this.dialogData.data.event;
     this.edit_event = this.dialogData.data.edit_event;
-    console.log(this.edit_event);
 
     if (this.edit_event) {
-      this.name =
-        this.event.event._def.title.indexOf(' ') !== -1
-          ? this.event.event._def.title.substring(
-              this.event.event._def.title.indexOf(' ') + 1,
-            )
-          : this.event.event._def.title;
+      this.name = this.event.event._def.extendedProps.name;
       this.selected_category = this.event.event._def.extendedProps.category;
       this.notes = this.event.event._def.extendedProps.notes;
       this.date = new Date(this.event.event.startStr);
@@ -111,7 +104,6 @@ export class EventsComponent implements OnInit {
 
     if (add_event) {
       this.eventsService.postEvent(add_event).subscribe((res: any) => {
-        console.log(res);
         this.dialogRef.close();
         this.shareDataService.sendData(res.statusCode === 201);
       });
@@ -130,7 +122,6 @@ export class EventsComponent implements OnInit {
     };
 
     if (update_event) {
-      console.log(update_event);
       this.eventsService
         .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
         .subscribe((res: any) => {
@@ -145,7 +136,6 @@ export class EventsComponent implements OnInit {
       .getRecursionTypes()
       .subscribe((res: any) => {
         this.recursionTypes = res.result;
-        console.log('rt', this.recursionTypes);
       });
   }
 }
