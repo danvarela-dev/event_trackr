@@ -1,0 +1,36 @@
+@import '../../../colors';
+
+.top-bar-wrapper {
+  height: calc(100vh - 60px);
+
+  .top-bar {
+    height: 60px;
+    display: flex;
+    margin-bottom: 16px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $secondary;
+    color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 6px;
+
+    .left {
+      display: flex;
+      gap: 16px;
+
+      .back-icon .pi {
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+    }
+
+    &-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding-left: 16px;
+    }
+  }
+}

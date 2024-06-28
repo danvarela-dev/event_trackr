@@ -9,17 +9,19 @@ export const appRoutes: Route[] = [
     component: LoginComponent,
   },
   {
-    path: 'cms',
+    path: 'layout',
     component: LayoutComponent,
     canActivate: [authGuard],
     children: [
       {
         path: 'home',
+        data: { title: 'Dashboard' },
         loadComponent: () =>
           import('./components/home/home.component').then(m => m.HomeComponent),
       },
       {
         path: 'event_summary',
+        data: { title: 'Resumen de Eventos' },
         loadComponent: () =>
           import('./components/event-summary/event-summary.component').then(
             m => m.EventSummaryComponent,
@@ -27,6 +29,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'categories',
+        data: { title: 'Categorias' },
         loadComponent: () =>
           import('./components/categories/categories.component').then(
             m => m.CategoriesComponent,
@@ -34,11 +37,57 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'events',
+        data: { title: 'Eventos' },
         loadComponent: () =>
           import('./components/events/events.component').then(
             m => m.EventsComponent,
           ),
       },
+      {
+        path: 'user-profile',
+        data: { title: 'Perfil de Usuario' },
+        loadComponent: () =>
+          import('./components/user-profile/user-profile.component').then(
+            m => m.UserProfileComponent,
+          ),
+      },
+      {
+        path: 'user-profile/new',
+        data: { title: 'Perfil de Usuario' },
+        loadComponent: () =>
+          import('./components/user-profile/user-profile.component').then(
+            m => m.UserProfileComponent,
+          ),
+      },
+      {
+        path: 'user-profile/edit/:id',
+        data: { title: 'Perfil de Usuario' },
+        loadComponent: () =>
+          import('./components/user-profile/user-profile.component').then(
+            m => m.UserProfileComponent,
+          ),
+      },
+      {
+        path: 'user-profile/:id',
+        data: { title: 'Perfil de Usuario' },
+        loadComponent: () =>
+          import('./components/user-profile/user-profile.component').then(
+            m => m.UserProfileComponent,
+          ),
+      },
+      {
+        path: 'users',
+        data: { title: 'Usuarios' },
+        loadComponent: () =>
+          import('./components/users/users.component').then(
+            m => m.UsersComponent,
+          ),
+      },
     ],
+  },
+
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 ];

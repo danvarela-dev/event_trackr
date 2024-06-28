@@ -1,0 +1,18 @@
+.users {
+  header {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  td {
+    padding: 0.6rem 1rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+}

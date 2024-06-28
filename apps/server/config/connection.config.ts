@@ -3,6 +3,7 @@ import { UsersEntity } from '../src/app/users/users.entity';
 import { CategoriesEntity } from '../src/app/categories/categories.entity';
 import { PeopleEntity } from '../src/app/people/people.entity';
 import { EventsEntity } from '../src/app/events/events.entity';
+import { RolesEntity } from '../src/app/roles/roles.entity';
 
 export const baseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -10,7 +11,13 @@ export const baseConfig: TypeOrmModuleOptions = {
   port: 3306,
   username: 'kevin.estrada',
   password: 'Emco2023**',
-  database: 'event_trackr',
-  entities: [UsersEntity, CategoriesEntity, PeopleEntity, EventsEntity],
+  database: 'event_trackr_dev',
+  entities: [
+    UsersEntity,
+    CategoriesEntity,
+    PeopleEntity,
+    EventsEntity,
+    RolesEntity,
+  ],
   synchronize: false,
 };

@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     eventDisplay: 'block',
     locale: esLocale,
     dayMaxEvents: 3,
-    height: '80vh',
+    height: 'calc(100vh - 124px)',
   };
 
   events: Events[];
@@ -140,7 +140,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   getEvents() {
     this.eventsService.getEvents().subscribe((res: any) => {
       this.events = res.result;
-      console.log(this.events);
       if (this.events) {
         this.calendarOptions = {
           ...this.calendarOptions,

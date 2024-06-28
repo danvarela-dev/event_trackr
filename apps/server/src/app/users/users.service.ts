@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { UsersEntity } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersEntity } from './users.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-
-  constructor(@InjectRepository(UsersEntity)
-              private readonly usersRepository: Repository<UsersEntity>) {
-  }
+  constructor(
+    @InjectRepository(UsersEntity)
+    private readonly usersRepository: Repository<UsersEntity>,
+  ) {}
 
   async getAllUsers(): Promise<UsersEntity[]> {
     return await this.usersRepository.find();
@@ -17,16 +17,18 @@ export class UsersService {
   async getUserByUsername(username: string): Promise<UsersEntity | undefined> {
     return await this.usersRepository.findOne({
       where: {
-        username
-      }
+        username,
+      },
+      relations: ['role'],
     });
   }
 
   async getUserById(id: number): Promise<UsersEntity | undefined> {
     return await this.usersRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
+      relations: ['role'],
     });
   }
 
@@ -34,12 +36,15 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updateUser(id: number, updatedUser: Partial<UsersEntity>): Promise<UsersEntity | undefined> {
+  async updateUser(
+    id: number,
+    updatedUser: Partial<UsersEntity>,
+  ): Promise<UsersEntity | undefined> {
     await this.usersRepository.update({ id }, updatedUser);
     return this.usersRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 

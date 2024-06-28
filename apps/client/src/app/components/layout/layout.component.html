@@ -1,15 +1,8 @@
 <div class="layout-container">
+  <head>
+    <link rel="preconnect" href="https://avatar.iran.liara.run" />
+  </head>
   <div class="sidebar">
-    <div class="sidebar-header">
-      <p-avatar
-        icon="pi pi-user"
-        styleClass="mr-2"
-        size="large"
-        [style]="{ 'background-color': '#685cfe', color: '#ffffff' }"
-        (click)="openMenu($event)"
-      ></p-avatar>
-      <span> Admin </span>
-    </div>
     <div class="sidebar-items">
       @for (item of sidebarItems; track item.id) {
       <div class="sidebar-item">
@@ -23,11 +16,25 @@
       </div>
       }
     </div>
+    <div class="sidebar-footer">
+      @if(user$ | async; as user) {
+      <p-avatar [image]="user.photo" size="large" (click)="openMenu($event)" />
+      <span> {{ user.name }} </span>
+      } @else {
+      <p-progressSpinner ariaLabel="loading" />
+      }
+    </div>
   </div>
 
   <div class="layout-content">
+    @if(pageTitle$ | async; as title) {
+    <event-trackr-top-bar [title]="title">
+      <router-outlet></router-outlet>
+    </event-trackr-top-bar>
+    } @else {
     <router-outlet></router-outlet>
+    }
   </div>
-</div>
 
-<p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
+  <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
+</div>

@@ -1,13 +1,16 @@
 import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '../guards/auth.guard';
 import { Public } from 'apps/server/config/jwt.config';
+import { UsersService } from '../users/users.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {}
 
   @Public()
   @ApiBody({
@@ -32,7 +35,10 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req) {
+    const username = req.user.username;
+    const user = await this.userService.getUserByUsername(username);
+    const { password, ...result } = user;
+    return result;
   }
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, ReplaySubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User, Response } from '@event-trackr/shared';
 
@@ -12,24 +12,21 @@ export class AuthenticationService {
 
   httpClient = inject(HttpClient);
 
-  loggedInUser$: ReplaySubject<User> = new ReplaySubject<User>(1);
+  loggedInUser$ = new BehaviorSubject<User | null>(null);
   loggedIn$ = new BehaviorSubject<boolean>(false);
 
   login(credentials: {
     username: string;
     password: string;
-  }): Observable<Response<{ access_token: string }>> {
+  }): Observable<Response<User>> {
     return this.httpClient
-      .post<Response<{ access_token: string }>>(`${this.baseUrl}/auth/login`, {
+      .post<Response<User>>(`${this.baseUrl}/auth/login`, {
         ...credentials,
       })
       .pipe(
         map(response => {
           if (response.status) {
-            sessionStorage.setItem(
-              'access_token',
-              response.result.access_token,
-            );
+            sessionStorage.setItem('user', JSON.stringify(response.result));
           }
           return response;
         }),
@@ -37,7 +34,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
   getUser(): Observable<Response<User>> {

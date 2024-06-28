@@ -1,0 +1,55 @@
+<div class="user-profile">
+  <head>
+    <link rel="preconnect" href="https://avatar.iran.liara.run" />
+  </head>
+  @if(user$ | async; as user) {
+  <div class="user-profile__header">
+    <div class="user-profile__header__avatar">
+      <img [ngSrc]="user.photo" priority width="200" height="200" placeholder />
+    </div>
+  </div>
+  }
+
+  <div class="user-profile__body">
+    <form [formGroup]="formGroup">
+      <div class="user-profile__body__left">
+        <p-floatLabel>
+          <input id="name" pInputText formControlName="name" />
+          <label for="name">Nombre</label>
+        </p-floatLabel>
+        <p-floatLabel>
+          <input id="username" pInputText formControlName="username" />
+          <label for="username">Nombre de Usuario</label>
+        </p-floatLabel>
+        <p-floatLabel>
+          <input id="email" pInputText formControlName="email" />
+          <label for="email">Email</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="user-profile__body__right">
+        <p-floatLabel>
+          <input id="phone" pInputText formControlName="telephone" />
+          <label for="phone">Teléfono</label>
+        </p-floatLabel>
+        <p-floatLabel>
+          <input id="gender" pInputText formControlName="gender" />
+          <label for="gender">Sexo</label>
+        </p-floatLabel>
+        <p-floatLabel>
+          <p-dropdown
+            inputId="role"
+            [options]="roles"
+            optionLabel="name"
+            formControlName="role"
+            autoWidth="true"
+            [style]="{ width: '221px' }"
+          >
+            ></p-dropdown
+          >
+          <label for="role">Rol</label>
+        </p-floatLabel>
+      </div>
+    </form>
+  </div>
+</div>

@@ -58,6 +58,11 @@
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "styles": [
+        "apps/client/src/styles.scss",
+        "node_modules/primeflex/primeflex.css",
+        "apps/client/src/_colors.scss"
+      ],
       "configurations": {
         "production": {
           "buildTarget": "client:build:production"

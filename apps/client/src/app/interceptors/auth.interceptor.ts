@@ -1,7 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = sessionStorage.getItem('access_token');
+  const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
+  const { token } = user;
 
   if (token) {
     req = req.clone({

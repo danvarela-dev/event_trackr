@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { User } from '@event-trackr/shared';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
@@ -15,5 +15,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 };
 
 function getAccessToken() {
-  return sessionStorage.getItem('access_token') ?? null;
+  const parsed = JSON.parse(sessionStorage.getItem('user') ?? '{}') as User;
+  return parsed.token;
 }

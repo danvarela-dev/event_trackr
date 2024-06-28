@@ -1,6 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Body,
   Controller,
@@ -8,13 +5,11 @@ import {
   Get,
   Patch,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Events } from '@event-trackr/shared';
-import { AuthGuard } from '../guards/auth.guard';
 
 @ApiTags('Events')
 @Controller('events')

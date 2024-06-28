@@ -1,5 +1,4 @@
 <div class="categories">
-  <h1>Categorias</h1>
   <p-table
     [value]="categories"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -14,13 +13,18 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-category let-editing="editing" let-ri="rowIndex">
+    <ng-template
+      pTemplate="body"
+      let-category
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
       <tr [pEditableRow]="category">
         <td>{{ category.id }}</td>
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input pInputText type="text" [(ngModel)]="category.name">
+              <input pInputText type="text" [(ngModel)]="category.name" />
             </ng-template>
             <ng-template pTemplate="output">
               <td>{{ category.name }}</td>
@@ -28,41 +32,42 @@
           </p-cellEditor>
         </td>
         <td>
-          <p-colorPicker [(ngModel)]="category.color" [disabled]="disabled"/>
+          <p-colorPicker [(ngModel)]="category.color" [disabled]="disabled" />
         </td>
         <td>
           <div class="flex align-items-center justify-content-center gap-2">
-              <button
-                  *ngIf="!editing"
-                  pButton
-                  pRipple
-                  type="button"
-                  pInitEditableRow
-                  icon="pi pi-pencil"
-                  (click)="editCategory(category)"
-                  class="p-button-rounded p-button-text">
-              </button>
-              <button
-                  *ngIf="editing"
-                  pButton
-                  pRipple
-                  type="button"
-                  pSaveEditableRow
-                  icon="pi pi-check"
-                  (click)="saveCategory(category)"
-                  class="p-button-rounded p-button-text p-button-success mr-2">
-              </button>
-              <button
-                  *ngIf="editing"
-                  pButton pRipple
-                  type="button"
-                  pCancelEditableRow
-                  icon="pi pi-times"
-                  (click)="editCancel()"
-                  class="p-button-rounded p-button-text p-button-danger">
-              </button>
+            <button
+              *ngIf="!editing"
+              pButton
+              pRipple
+              type="button"
+              pInitEditableRow
+              icon="pi pi-pencil"
+              (click)="editCategory(category)"
+              class="p-button-rounded p-button-text"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="saveCategory(category)"
+              class="p-button-rounded p-button-text p-button-success mr-2"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="editCancel()"
+              class="p-button-rounded p-button-text p-button-danger"
+            ></button>
           </div>
-      </td>
+        </td>
       </tr>
     </ng-template>
   </p-table>

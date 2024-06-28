@@ -53,21 +53,10 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.authenticationService
       .login(this.loginForm.value)
-      .pipe(
-        finalize(() => {
-          this.authenticationService
-            .getUser()
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(({ result }) => {
-              this.authenticationService.loggedInUser$.next(result);
-              this.authenticationService.loggedIn$.next(true);
-              this.router.navigate(['cms/home']);
-            });
-        }),
-      )
       .subscribe(({ status, result }) => {
         if (status) {
-          localStorage.setItem('access_token', result.access_token);
+          sessionStorage.setItem('user', JSON.stringify(result));
+          this.router.navigate(['layout/home']);
         }
       });
   }
