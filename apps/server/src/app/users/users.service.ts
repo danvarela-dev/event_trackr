@@ -19,7 +19,7 @@ export class UsersService {
       where: {
         username,
       },
-      relations: ['role'],
+      relations: ['role', 'gender'],
     });
   }
 
@@ -28,7 +28,7 @@ export class UsersService {
       where: {
         id,
       },
-      relations: ['role'],
+      relations: ['role', 'gender'],
     });
   }
 

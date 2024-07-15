@@ -1,9 +1,10 @@
+import { Gender } from './gender.interface';
 import { Role } from './role.interface';
+
 export interface User {
   id: number;
   username: string;
   name: string;
-  gender: string;
   photo: string;
   email: string;
   telephone: string;
@@ -12,4 +13,5 @@ export interface User {
   created_at: Date;
   updated_at: Date;
   role: Role;
+  gender: Gender;
 }

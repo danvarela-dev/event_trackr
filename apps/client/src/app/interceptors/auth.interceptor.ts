@@ -1,6 +1,10 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, tap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const route = inject(Router);
   const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
   const { token } = user;
 
@@ -11,6 +15,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       },
     });
   }
+ 
+  return next(req).pipe(
+    catchError(({ error }: HttpErrorResponse) => {
+      if (error.statusCode === 401) {
+        sessionStorage.removeItem('user');
+        route.navigate(['/login']);
+      }
 
-  return next(req);
+      throw error;
+    }),
+  );
 };

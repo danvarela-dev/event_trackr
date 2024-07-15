@@ -33,7 +33,16 @@
           <label for="phone">Teléfono</label>
         </p-floatLabel>
         <p-floatLabel>
-          <input id="gender" pInputText formControlName="gender" />
+          <p-dropdown
+            inputId="gender"
+            [options]="genders"
+            optionLabel="name"
+            formControlName="gender"
+            autoWidth="true"
+            [style]="{ width: '221px' }"
+          >
+            ></p-dropdown
+          >
           <label for="gender">Sexo</label>
         </p-floatLabel>
         <p-floatLabel>

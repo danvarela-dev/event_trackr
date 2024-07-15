@@ -16,6 +16,4 @@ export class PeopleEntity {
 
   @Column()
   death_date: Date;
-
-  // todo: relations
 }

@@ -4,6 +4,7 @@ import { CategoriesEntity } from '../src/app/categories/categories.entity';
 import { PeopleEntity } from '../src/app/people/people.entity';
 import { EventsEntity } from '../src/app/events/events.entity';
 import { RolesEntity } from '../src/app/roles/roles.entity';
+import { GendersEntity } from '../src/app/genders/genders.entity';
 
 export const baseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -18,6 +19,7 @@ export const baseConfig: TypeOrmModuleOptions = {
     PeopleEntity,
     EventsEntity,
     RolesEntity,
+    GendersEntity,
   ],
   synchronize: false,
 };

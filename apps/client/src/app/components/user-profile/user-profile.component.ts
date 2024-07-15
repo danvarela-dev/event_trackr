@@ -2,7 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TopBarComponent } from '../top-bar/top-bar.component';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { Role, User } from '@event-trackr/shared';
+import { Gender, Role, User } from '@event-trackr/shared';
 import { Observable, map, tap } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -34,10 +34,16 @@ export class UserProfileComponent {
   title = 'Perfil de Usuario';
   @Input() user$: Observable<User>;
   canEdit = false;
+
+  // todo: get this two arrays from the backend
   roles: Role[] = [
     { id: 1, name: 'SysAdmin' },
     { id: 2, name: 'Admin' },
     { id: 3, name: 'Empleado' },
+  ];
+  genders: Gender[] = [
+    { id: 1, name: 'Masculino' },
+    { id: 2, name: 'Femenino' },
   ];
 
   formGroup: FormGroup;
@@ -47,32 +53,33 @@ export class UserProfileComponent {
   route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    switch (this.getActionType()) {
+    const actionType = this.getActionType();
+    debugger;
+    switch (actionType) {
       case 'add':
         this.buildForm();
-        this.formGroup.enable();
         break;
 
       case 'edit':
         this.canEdit = true;
-        this.loadUser();
+        this.loadUser(actionType);
         break;
 
       case 'view':
         this.canEdit = false;
-        this.loadUser();
+        this.loadUser(actionType);
+        this.formGroup.disable();
         break;
     }
   }
 
-  loadUser() {
+  loadUser(actionType: 'add' | 'edit' | 'view' = 'view'): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (this.getActionType() === 'view' && id) {
+    if (['view', 'edit'].includes(actionType) && id) {
       this.user$ = this.userService.getUserById(+id).pipe(
         map(response => response.result),
         tap(user => {
           this.buildForm(user);
-
           return user;
         }),
       );
@@ -85,15 +92,19 @@ export class UserProfileComponent {
       return 'add';
     }
 
-    if (url.some(segment => segment.path === 'edit')) {
+    if (
+      url.some(
+        segment => segment.path === 'edit' || segment.path === 'user-profile',
+      )
+    ) {
       return 'edit';
     }
 
     return 'view';
   }
 
-  getIndexedRoles(): Role[] {
-    return this.roles.reduce((acc: Role[], role) => {
+  getIndexedArray(array: (Gender | Role)[]): (Gender | Role)[] {
+    return array.reduce((acc: (Gender | Role)[], role) => {
       acc[role.id] = role;
       return acc;
     }, []);
@@ -103,14 +114,10 @@ export class UserProfileComponent {
     this.formGroup = this.formBuilder.group({
       username: [user ? user.username : ''],
       email: [user ? user.email : ''],
-      gender: [user ? user.gender : ''],
+      gender: [user ? this.getIndexedArray(this.genders)[user.gender.id] : ''],
       name: [user ? user.name : ''],
-      role: [user ? this.getIndexedRoles()[user.role.id] : ''],
+      role: [user ? this.getIndexedArray(this.roles)[user.role.id] : ''],
       telephone: [user ? user.telephone : ''],
     });
-
-    if (!this.canEdit) {
-      this.formGroup.disable();
-    }
   }
 }

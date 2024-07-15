@@ -11,7 +11,6 @@ export class UsersService {
   private base_url = environment.api;
 
   getAllUsers(): Observable<Response<User[]>> {
-    debugger;
     return this.httpClient.get<Response<User[]>>(`${this.base_url}/users`);
   }
 
