@@ -42,9 +42,9 @@ export class UsersEntity {
   @JoinColumn({ name: 'id_gender' })
   gender: Gender;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 }

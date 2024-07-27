@@ -55,10 +55,8 @@ export class EventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    console.log(this.dialogData.data);
     this.event = this.dialogData.data.event;
     this.edit_event = this.dialogData.data.edit_event;
-    console.log(this.edit_event);
 
     if (this.edit_event) {
       this.name =
@@ -91,7 +89,7 @@ export class EventsComponent implements OnInit {
 
     if (add_event) {
       this.eventsService.postEvent(add_event).subscribe((res: any) => {
-        console.log(res);
+        (res);
         this.dialogRef.close();
         this.shareDataService.sendData(res.statusCode === 201);
       });
@@ -108,7 +106,6 @@ export class EventsComponent implements OnInit {
     };
 
     if (update_event) {
-      console.log(update_event);
       this.eventsService
         .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
         .subscribe((res: any) => {

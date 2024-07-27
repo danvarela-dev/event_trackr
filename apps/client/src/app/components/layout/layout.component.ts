@@ -13,14 +13,13 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Menu, MenuModule } from 'primeng/menu';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Observable, filter, map, startWith, take } from 'rxjs';
 import { EventSummaryComponent } from '../event-summary/event-summary.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
 import { User } from '@event-trackr/shared';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'event-trackr-layout',
   standalone: true,

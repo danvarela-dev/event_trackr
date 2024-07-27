@@ -21,10 +21,11 @@
           "apps/client/src/assets"
         ],
         "styles": [
-          "apps/client/src/styles.scss",
-          "node_modules/primeflex/primeflex.css",
-          "apps/client/src/_colors.scss"
-        ],
+          "apps/client/src/styles/styles.scss",
+          "node_modules/primeflex/primeflex.css"        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["apps/client/src/styles"]
+        },
         "scripts": [],
         "server": "apps/client/src/main.server.ts",
         "prerender": true,
@@ -59,9 +60,9 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "styles": [
-        "apps/client/src/styles.scss",
+        "apps/client/src/styles/styles.scss",
         "node_modules/primeflex/primeflex.css",
-        "apps/client/src/_colors.scss"
+        "apps/client/src/styles/_colors.scss"
       ],
       "configurations": {
         "production": {

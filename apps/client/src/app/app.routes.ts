@@ -45,7 +45,6 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'user-profile',
-        data: { title: 'Perfil de Usuario' },
         loadComponent: () =>
           import('./components/user-profile/user-profile.component').then(
             m => m.UserProfileComponent,
@@ -53,7 +52,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'user-profile/new',
-        data: { title: 'Perfil de Usuario' },
+        data: { title: 'Usuario / Agregar Nuevo Usuario' },
         loadComponent: () =>
           import('./components/user-profile/user-profile.component').then(
             m => m.UserProfileComponent,
@@ -61,7 +60,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'user-profile/edit/:id',
-        data: { title: 'Perfil de Usuario' },
+        data: { title: 'Usuario / Editar' },
         loadComponent: () =>
           import('./components/user-profile/user-profile.component').then(
             m => m.UserProfileComponent,
@@ -69,7 +68,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'user-profile/:id',
-        data: { title: 'Perfil de Usuario' },
+        data: { title: 'Usuario / Perfil' },
         loadComponent: () =>
           import('./components/user-profile/user-profile.component').then(
             m => m.UserProfileComponent,

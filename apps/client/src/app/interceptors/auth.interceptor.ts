@@ -1,7 +1,7 @@
-import { HttpErrorResponse, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs';
+import { catchError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const route = inject(Router);
@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       },
     });
   }
- 
+
   return next(req).pipe(
     catchError(({ error }: HttpErrorResponse) => {
       if (error.statusCode === 401) {

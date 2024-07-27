@@ -54,7 +54,6 @@ export class EventsService {
         },
       });
     } catch (error) {
-      console.log(error);
       return undefined;
     }
   }

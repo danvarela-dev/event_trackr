@@ -1,3 +1,6 @@
+@import 'colors';
+
+
 .user-profile {
   display: flex;
   flex-direction: column;
@@ -12,6 +15,20 @@
       justify-content: center;
       align-items: center;
       gap: 16px;
+    }
+  }
+
+  .field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 250px;
+    height: 55px;
+
+    .error {
+      color: map-get($red, 400);
+      font-size: 0.8rem;
+
     }
   }
 
@@ -39,5 +56,12 @@
       width: 100%;
 
     }
+  }
+
+  &__footer {
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
   }
 }

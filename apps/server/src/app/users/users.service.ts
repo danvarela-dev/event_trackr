@@ -33,6 +33,14 @@ export class UsersService {
   }
 
   async createUser(user: UsersEntity): Promise<UsersEntity> {
+    user = {
+      ...user,
+      photo: `https://avatar.iran.liara.run/public/${
+        user.gender.id === 1 ? 'boy' : 'girl'
+      }?username=[${user.username}]`,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
     return await this.usersRepository.save(user);
   }
 

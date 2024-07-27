@@ -38,19 +38,15 @@ export class CategoriesComponent implements OnInit {
   getCategories() {
     this.categoriesService.getCategories().subscribe((category: any) => {
       this.categories = category.result;
-      console.log(this.categories);
     });
   }
 
   editCategory(category: Category) {
-    console.log('this not', category);
     this.disabled = false;
   }
 
   saveCategory(category: Category) {
-    console.log(category);
     this.categoriesService.postCategory(category).subscribe(res => {
-      console.log(res);
       this.disabled = true;
     });
   }
