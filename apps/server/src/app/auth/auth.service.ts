@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { UsersEntity } from '../users/users.entity';
 import { User } from '@event-trackr/shared';
 // import * as bcrypt from 'bcrypt';
 
@@ -15,13 +14,23 @@ export class AuthService {
   async login(user: string, pass: string): Promise<User | string> {
     const userFound = await this.userService.getUserByUsername(user);
 
-    if (userFound && userFound.password !== pass) {
-      throw new UnauthorizedException();
+    if (!userFound) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+
+    const isPasswordValid = await this.userService.comparePassword(
+      pass,
+      userFound.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Contraseña incorrecta');
     }
 
     const payload = { sub: userFound.id, username: userFound.username };
     const token = await this.jwtService.signAsync(payload);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = userFound;
 
     return { ...result, token };

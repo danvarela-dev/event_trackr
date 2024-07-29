@@ -6,18 +6,21 @@ import { Observable, map, tap } from 'rxjs';
 import { User } from '@event-trackr/shared';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'event-trackr-users',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule],
+  imports: [CommonModule, TableModule, ButtonModule, ConfirmDialogModule],
+  providers: [ConfirmationService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
   usersService = inject(UsersService);
   messageService = inject(MessageService);
+  confirmationService = inject(ConfirmationService);
   users$: Observable<User[]>;
   router = inject(Router);
 
@@ -27,20 +30,31 @@ export class UsersComponent implements OnInit {
       .pipe(map(response => response.result ?? []));
   }
 
-  deleteUser({ id }: User): void {
-    this.usersService.deleteUser(id).subscribe(() => {
-      this.users$ = this.usersService.getAllUsers().pipe(
-        map(
-          response => response.result ?? [],
-          tap(() => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Exito',
-              detail: 'Usuario eliminado correctamente',
-            });
-          }),
-        ),
-      );
+  deleteUser({ id }: User, event: Event): void {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Estas seguro de eliminar este usuario?',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this.usersService.deleteUser(id).subscribe(() => {
+          this.users$ = this.usersService.getAllUsers().pipe(
+            map(
+              response => response.result ?? [],
+              tap(() => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Exito',
+                  detail: 'Usuario eliminado correctamente',
+                });
+              }),
+            ),
+          );
+        });
+      },
     });
   }
 
@@ -50,5 +64,10 @@ export class UsersComponent implements OnInit {
 
   addUser(): void {
     this.router.navigate(['/layout/user-profile/new']);
+  }
+
+  canDelete(user: User): boolean {
+    
+    return user.username !== 'admin';
   }
 }

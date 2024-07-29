@@ -38,7 +38,7 @@
             icon="pi pi-trash"
             severity="danger"
             [rounded]="true"
-            (click)="deleteUser(product)"
+            (click)="deleteUser(product, $event)"
             [size]="'small'"
           ></p-button>
         </td>
@@ -46,3 +46,5 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-confirmDialog />
