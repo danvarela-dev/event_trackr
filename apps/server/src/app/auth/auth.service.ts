@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@event-trackr/shared';
-// import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +11,7 @@ export class AuthService {
   ) {}
 
   async login(user: string, pass: string): Promise<User | string> {
+    console.log(user);
     const userFound = await this.userService.getUserByUsername(user);
 
     if (!userFound) {

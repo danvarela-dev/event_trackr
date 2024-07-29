@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Response, User } from '@event-trackr/shared';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -33,5 +33,9 @@ export class UsersService {
     return this.httpClient.delete<Response<User>>(
       `${this.base_url}/users/${id}`,
     );
+  }
+
+  getCurrentUser(): User {
+    return JSON.parse(sessionStorage.getItem('user') ?? '{}') as User;
   }
 }

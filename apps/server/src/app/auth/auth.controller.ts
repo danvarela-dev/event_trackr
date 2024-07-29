@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { Public } from 'apps/server/config/jwt.config';
 import { UsersService } from '../users/users.service';
 
@@ -30,6 +31,7 @@ export class AuthController {
   })
   @Post('login')
   async login(@Body() credentials: { username: string; password: string }) {
+    console.log(credentials);
     const { username, password } = credentials;
     return await this.authService.login(username, password);
   }
@@ -38,6 +40,7 @@ export class AuthController {
   async getProfile(@Request() req) {
     const username = req.user.username;
     const user = await this.userService.getUserByUsername(username);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
     return result;
   }

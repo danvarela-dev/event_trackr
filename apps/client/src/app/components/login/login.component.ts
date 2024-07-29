@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -11,8 +11,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router, RouterModule } from '@angular/router';
-import { finalize } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'event-trackr-login',
@@ -34,10 +32,7 @@ export class LoginComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private destroyRef: DestroyRef,
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
@@ -45,8 +40,8 @@ export class LoginComponent implements OnInit {
 
   initForm(): void {
     this.loginForm = this.formBuilder.group({
-      username: ['admin', Validators.required],
-      password: ['admin', Validators.required],
+      username: ['sysadmin', Validators.required],
+      password: ['admin123', Validators.required],
     });
   }
 

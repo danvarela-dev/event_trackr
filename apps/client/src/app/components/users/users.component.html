@@ -18,19 +18,19 @@
         <th>Acciones</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-user>
       <tr>
-        <td>{{ product.id }}</td>
-        <td>{{ product.username }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.email }}</td>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
         <td class="actions">
           <p-button
             type="button"
             icon="pi pi-pencil"
             severity="warning"
             [rounded]="true"
-            (click)="editUser(product)"
+            (click)="editUser(user)"
             [size]="'small'"
           ></p-button>
           <p-button
@@ -38,8 +38,9 @@
             icon="pi pi-trash"
             severity="danger"
             [rounded]="true"
-            (click)="deleteUser(product, $event)"
+            (click)="deleteUser(user, $event)"
             [size]="'small'"
+            [disabled]="!canDelete(user.id)"
           ></p-button>
         </td>
       </tr>

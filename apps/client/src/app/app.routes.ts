@@ -4,8 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 export const appRoutes: Route[] = [
-  { path: '', redirectTo: 'cms/home', pathMatch: 'full' },
-  {
+{
     path: 'login',
     component: LoginComponent,
   },

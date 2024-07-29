@@ -1,18 +1,17 @@
-import { WritableSignal, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { User } from '@event-trackr/shared';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
   const accessToken = getAccessToken();
 
   if (!accessToken) {
     router.navigate(['/login']);
-  } else {
-    router.navigate(['/cms/home']);
+    return false;
   }
 
-  return of(!!accessToken);
+  return true;
 };
 
 function getAccessToken() {

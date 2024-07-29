@@ -28,7 +28,7 @@
         },
         "scripts": [],
         "server": "apps/client/src/main.server.ts",
-        "prerender": false,
+        "prerender": true,
         "ssr": {
           "entry": "apps/client/server.ts"
         }

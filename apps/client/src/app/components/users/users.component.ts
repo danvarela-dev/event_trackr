@@ -31,6 +31,10 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser({ id }: User, event: Event): void {
+    if (!this.canDelete(id)) {
+      return;
+    }
+
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: '¿Estas seguro de eliminar este usuario?',
@@ -66,8 +70,7 @@ export class UsersComponent implements OnInit {
     this.router.navigate(['/layout/user-profile/new']);
   }
 
-  canDelete(user: User): boolean {
-    
-    return user.username !== 'admin';
+  canDelete(id: number): boolean {
+    return id !== this.usersService.getCurrentUser().id;
   }
 }
