@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { CategoriesEntity } from './categories.entity';
+import { CategoriesEntity } from '../../entities/categories.entity';
 import { CategoriesService } from './categories.service';
 import { ApiTags } from '@nestjs/swagger';
 

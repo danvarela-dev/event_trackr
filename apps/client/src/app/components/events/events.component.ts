@@ -1,25 +1,25 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DropdownModule } from 'primeng/dropdown';
-import { CategoriesService } from '../../services/categories/categories.service';
-import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ButtonModule } from 'primeng/button';
-import { EventsService } from '../../services/events/events.service';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CalendarModule } from 'primeng/calendar';
-import { ToastModule } from 'primeng/toast';
-import { ShareDataService } from '../../services/data/share-data.service';
-import { Category, Events } from '@event-trackr/shared';
+import { Component, OnInit } from "@angular/core";
+import { NgIf } from "@angular/common";
+import { DropdownModule } from "primeng/dropdown";
+import { CategoriesService } from "../../services/categories/categories.service";
+import { InputTextModule } from "primeng/inputtext";
+import { FormsModule } from "@angular/forms";
+import { InputTextareaModule } from "primeng/inputtextarea";
+import { ButtonModule } from "primeng/button";
+import { EventsService } from "../../services/events/events.service";
+import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { CalendarModule } from "primeng/calendar";
+import { ToastModule } from "primeng/toast";
+import { ShareDataService } from "../../services/data/share-data.service";
+import { Category, Events } from "@event-trackr/shared";
 
 @Component({
   selector: 'event-trackr-events',
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     DropdownModule,
     InputTextModule,
     FormsModule,
@@ -45,6 +45,7 @@ export class EventsComponent implements OnInit {
   event: any;
   edit_event: boolean;
   date: Date;
+
   constructor(
     private categoriesService: CategoriesService,
     private eventsService: EventsService,
@@ -89,7 +90,6 @@ export class EventsComponent implements OnInit {
 
     if (add_event) {
       this.eventsService.postEvent(add_event).subscribe((res: any) => {
-        (res);
         this.dialogRef.close();
         this.shareDataService.sendData(res.statusCode === 201);
       });

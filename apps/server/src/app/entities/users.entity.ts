@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Gender, Role } from '@event-trackr/shared';
-import { RolesEntity } from '../roles/roles.entity';
-import { GendersEntity } from '../genders/genders.entity';
+import { RolesEntity } from './roles.entity';
+import { GendersEntity } from './genders.entity';
 
 @Entity('users')
 export class UsersEntity {

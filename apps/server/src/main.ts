@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from '../config/swagger.config';
 import { ResponseInterceptor } from './app/interceptors/response-interceptor.service';
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

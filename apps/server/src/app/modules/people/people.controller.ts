@@ -1,13 +1,12 @@
-import { Controller, Delete, Get, Post, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { PeopleService } from "./people.service";
-import { PeopleEntity } from "./people.entity";
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { PeopleService } from './people.service';
+import { PeopleEntity } from '../../entities/people.entity';
 
 @ApiTags('People')
 @Controller('people')
 export class PeopleController {
-  constructor(private peopleService: PeopleService) {
-  }
+  constructor(private peopleService: PeopleService) {}
 
   @Get()
   async getAllPeople(): Promise<PeopleEntity[]> {
@@ -25,7 +24,10 @@ export class PeopleController {
   }
 
   @Put(':id')
-  async updatePerson(id: number, updatedPerson: Partial<PeopleEntity>): Promise<PeopleEntity | undefined> {
+  async updatePerson(
+    id: number,
+    updatedPerson: Partial<PeopleEntity>,
+  ): Promise<PeopleEntity | undefined> {
     return await this.peopleService.updatePerson(id, updatedPerson);
   }
 

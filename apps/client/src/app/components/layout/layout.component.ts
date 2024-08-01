@@ -74,6 +74,12 @@ export class LayoutComponent implements OnInit {
       icon: 'pi pi-fw pi-users',
       link: '/layout/users',
     },
+    {
+      id: 4,
+      label: 'Bóveda',
+      icon: 'pi pi-fw pi-lock',
+      link: '/layout/vault',
+    },
   ];
 
   menuItems: MenuItem[] = [

@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersEntity } from './users.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { UsersEntity } from '../../entities/users.entity';
+import { EncryptionService } from '../common/encryption.service';
 
 @Injectable()
 export class UsersService {
-  private readonly saltRounds = 10;
-
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   async getAllUsers(): Promise<UsersEntity[]> {
@@ -53,7 +52,7 @@ export class UsersService {
       }?username=[${user.username}]`,
       created_at: new Date(),
       updated_at: new Date(),
-      password: await this.hashPassword(user.password),
+      password: await this.encryptionService.hashPassword(user.password),
     };
 
     return await this.usersRepository.save(user);
@@ -73,14 +72,5 @@ export class UsersService {
 
   async deleteUser(id: number): Promise<void> {
     await this.usersRepository.delete(id);
-  }
-
-  async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(this.saltRounds);
-    return bcrypt.hash(password, salt);
-  }
-
-  async comparePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
   }
 }

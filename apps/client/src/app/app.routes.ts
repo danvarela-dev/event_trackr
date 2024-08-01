@@ -82,6 +82,14 @@ export const appRoutes: Route[] = [
             m => m.UsersComponent,
           ),
       },
+      {
+        path: 'vault',
+        data: { title: 'Bóveda' },
+        loadComponent: () =>
+          import('./components/vault/vault.component').then(
+            m => m.VaultComponent,
+          ),
+      },
     ],
   },
 

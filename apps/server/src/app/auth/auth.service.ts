@@ -1,24 +1,25 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@event-trackr/shared';
+import { UsersService } from '../modules/users/users.service';
+import { EncryptionService } from '../modules/common/encryption.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    private encryptionService: EncryptionService,
   ) {}
 
   async login(user: string, pass: string): Promise<User | string> {
-    console.log(user);
     const userFound = await this.userService.getUserByUsername(user);
-
+    console.log(userFound);
     if (!userFound) {
       throw new UnauthorizedException('Usuario no encontrado');
     }
 
-    const isPasswordValid = await this.userService.comparePassword(
+    const isPasswordValid = await this.encryptionService.comparePassword(
       pass,
       userFound.password,
     );

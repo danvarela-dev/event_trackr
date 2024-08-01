@@ -3,7 +3,7 @@ import { Events } from '@event-trackr/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EventsEntity } from './events.entity';
+import { EventsEntity } from '../../entities/events.entity';
 
 @Injectable()
 export class EventsService {

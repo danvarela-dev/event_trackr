@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { CategoriesEntity } from '../categories/categories.entity';
+import { CategoriesEntity } from '../entities/categories.entity';
 
 @Entity('events')
 export class EventsEntity {

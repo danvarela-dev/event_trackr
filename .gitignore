@@ -41,3 +41,4 @@ Thumbs.db
 .nx/cache
 .nx/workspace-data
 .angular
+/apps/server/config/encryption.config.ts

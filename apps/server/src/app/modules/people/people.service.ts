@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { PeopleEntity } from './people.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PeopleEntity } from '../../entities/people.entity';
 
 @Injectable()
 export class PeopleService {
-
   constructor(
     @InjectRepository(PeopleEntity)
-    private readonly peopleRepository: Repository<PeopleEntity>
-  ){
-  }
+    private readonly peopleRepository: Repository<PeopleEntity>,
+  ) {}
 
   async getAllPeople(): Promise<PeopleEntity[]> {
     return await this.peopleRepository.find();
@@ -19,8 +17,8 @@ export class PeopleService {
   async getPersonById(id: number): Promise<PeopleEntity | undefined> {
     return await this.peopleRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -28,19 +26,19 @@ export class PeopleService {
     return await this.peopleRepository.save(person);
   }
 
-  async updatePerson(id: number, updatedPerson: Partial<PeopleEntity>): Promise<PeopleEntity | undefined> {
+  async updatePerson(
+    id: number,
+    updatedPerson: Partial<PeopleEntity>,
+  ): Promise<PeopleEntity | undefined> {
     await this.peopleRepository.update({ id }, updatedPerson);
     return this.peopleRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
   async deletePerson(id: number): Promise<DeleteResult> {
     return await this.peopleRepository.delete(id);
   }
-
-
-
 }

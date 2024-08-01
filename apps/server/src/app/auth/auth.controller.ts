@@ -3,7 +3,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { Public } from 'apps/server/config/jwt.config';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../modules/users/users.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -31,8 +31,8 @@ export class AuthController {
   })
   @Post('login')
   async login(@Body() credentials: { username: string; password: string }) {
-    console.log(credentials);
     const { username, password } = credentials;
+    console.log('hey');
     return await this.authService.login(username, password);
   }
 
