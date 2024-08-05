@@ -1,0 +1,14 @@
+{
+  "routes": [
+    "/layout",
+    "/layout/categories",
+    "/layout/event_summary",
+    "/layout/events",
+    "/layout/home",
+    "/layout/user-profile",
+    "/layout/user-profile/new",
+    "/layout/users",
+    "/layout/vault",
+    "/login"
+  ]
+}
