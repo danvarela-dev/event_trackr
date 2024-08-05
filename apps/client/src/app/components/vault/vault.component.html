@@ -1,1 +1,28 @@
-<div>vault works!</div>
+<div class="vault">
+  <header class="flex flex-row-reverse">
+    <p-button
+      label="Agregar Credencial"
+      icon="pi pi-book"
+      iconPos="right"
+      severity="success"
+      (click)="openAddCredentialDialog()"
+    />
+  </header>
+
+  <div
+    class="vault-body p-4 flex justify-content-center flex-wrap grid overflow-y-auto gap-3 mt-4"
+  >
+    @if(vault$ | async; as vault) { @for(item of vault; track item.id) {
+    <event-trackr-vault-card
+      #vaultCard
+      (requestPassword)="getVaultById($event)"
+      (delete)="deleteVault($event)"
+      [vault]="item"
+    >
+    </event-trackr-vault-card>
+    } @empty {
+    <p>No hay credenciales en esta bóveda.</p>
+    } }
+  </div>
+</div>
+<p-confirmDialog />

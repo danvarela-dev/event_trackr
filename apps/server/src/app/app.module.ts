@@ -10,6 +10,7 @@ import { PeopleModule } from './modules/people/people.module';
 import { UsersModule } from './modules/users/users.module';
 import { GendersModule } from './modules/genders/genders.module';
 import { EventsModule } from './modules/events/events.module';
+import { VaultModule } from './modules/vault/vault.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EventsModule } from './modules/events/events.module';
     UsersModule,
     AuthModule,
     UsersModule,
+    VaultModule,
   ],
   controllers: [],
   providers: [

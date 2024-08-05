@@ -29,7 +29,8 @@
         ],
         "styles": [
           "apps/client/src/styles/styles.scss",
-          "node_modules/primeflex/primeflex.css"
+          "node_modules/primeflex/primeflex.css",
+          "node_modules/font-awesome/css/font-awesome.min.css"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [
@@ -72,7 +73,8 @@
       "styles": [
         "apps/client/src/styles/styles.scss",
         "node_modules/primeflex/primeflex.css",
-        "apps/client/src/styles/_colors.scss"
+        "apps/client/src/styles/_colors.scss",
+        "node_modules/font-awesome/css/font-awesome.min.css"
       ],
       "configurations": {
         "production": {

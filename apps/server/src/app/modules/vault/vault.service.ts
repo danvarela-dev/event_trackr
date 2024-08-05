@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { VaultEntity } from '../../entities/vault.entity';
 import { Repository } from 'typeorm';
 import { EncryptionService } from '../common/encryption.service';
+import { VaultCategoryEntity } from '../../entities/vault-category.entity';
 
 @Injectable()
 export class VaultService {
   constructor(
     @InjectRepository(VaultEntity)
     private readonly vaultRepository: Repository<VaultEntity>,
+    @InjectRepository(VaultCategoryEntity)
+    private readonly vaultCategoryRepository: Repository<VaultCategoryEntity>,
     private readonly encryptionService: EncryptionService,
   ) {}
 
@@ -34,7 +37,12 @@ export class VaultService {
         'created_at',
         'updated_at',
       ],
+      relations: ['vaultCategory'],
     });
+  }
+
+  async getAllVaultCategories(): Promise<VaultCategoryEntity[]> {
+    return await this.vaultCategoryRepository.find();
   }
 
   async findById(id: number): Promise<VaultEntity> {
@@ -53,6 +61,7 @@ export class VaultService {
         'created_at',
         'updated_at',
       ],
+      relations: ['vaultCategory'],
     });
 
     return {
@@ -66,12 +75,13 @@ export class VaultService {
       where: {
         id,
       },
+      relations: ['vaultCategory'],
     });
 
     const updatedVault = {
       ...vault,
       ...newVault,
-    };
+    } as VaultEntity;
 
     await this.vaultRepository.update({ id }, updatedVault);
 
@@ -79,6 +89,7 @@ export class VaultService {
   }
 
   async deleteVault(id: number) {
-    return await this.vaultRepository.delete(id);
+    await this.vaultRepository.delete(id);
+    return this.vaultRepository.find();
   }
 }

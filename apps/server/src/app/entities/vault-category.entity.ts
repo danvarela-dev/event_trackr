@@ -12,6 +12,12 @@ export class VaultCategoryEntity {
   description: string;
 
   @Column()
+  image: string;
+
+  @Column()
+  icon: string;
+
+  @Column()
   created_at: Date;
 
   @Column()

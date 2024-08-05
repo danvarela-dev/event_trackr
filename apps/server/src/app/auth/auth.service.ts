@@ -14,7 +14,6 @@ export class AuthService {
 
   async login(user: string, pass: string): Promise<User | string> {
     const userFound = await this.userService.getUserByUsername(user);
-    console.log(userFound);
     if (!userFound) {
       throw new UnauthorizedException('Usuario no encontrado');
     }

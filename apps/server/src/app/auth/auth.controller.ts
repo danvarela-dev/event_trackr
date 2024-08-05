@@ -32,7 +32,6 @@ export class AuthController {
   @Post('login')
   async login(@Body() credentials: { username: string; password: string }) {
     const { username, password } = credentials;
-    console.log('hey');
     return await this.authService.login(username, password);
   }
 

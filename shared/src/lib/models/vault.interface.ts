@@ -5,10 +5,10 @@ export interface Vault {
   name: string;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   description: string;
   uri: string;
-  category: VaultCategory;
+  vaultCategory: VaultCategory;
   created_at: Date;
   updated_at: Date;
 }

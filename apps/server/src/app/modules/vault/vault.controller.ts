@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import { VaultService } from './vault.service';
 import { Vault } from '@event-trackr/shared';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('vaults')
+@ApiTags('Vault')
+@Controller('vault')
 export class VaultController {
   constructor(private readonly vaultService: VaultService) {}
 
@@ -22,6 +24,11 @@ export class VaultController {
   @Get()
   async findAll() {
     return await this.vaultService.getAllVault();
+  }
+
+  @Get('categories')
+  async findAllCategories() {
+    return await this.vaultService.getAllVaultCategories();
   }
 
   @Get(':id')

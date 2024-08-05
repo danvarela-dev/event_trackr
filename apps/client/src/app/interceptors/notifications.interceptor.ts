@@ -16,7 +16,6 @@ export const errorNotificationsInterceptor: HttpInterceptorFn = (req, next) => {
         detail: error.message ?? 'An error occurred',
       });
       if (error.statusCode === 401) {
-        console.log(error);
         router.navigate(['/login']);
       }
       throw error;

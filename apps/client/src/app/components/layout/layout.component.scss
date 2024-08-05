@@ -5,9 +5,6 @@
 }
 
 .layout-container {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
 
   .body {
     display: flex;
@@ -15,8 +12,7 @@
 
   .layout-content {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    width: 100%;
-    height: calc(100vh - 32px);
+    max-height: calc(100vh - 60px);
     padding: 16px;
     box-sizing: border-box;
     margin: 16px;

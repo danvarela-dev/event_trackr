@@ -1,4 +1,4 @@
-<div class="layout-container">
+<div class="layout-container flex overflow-x-auto">
   <head>
     <link rel="preconnect" href="https://avatar.iran.liara.run" />
   </head>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="layout-content">
+  <div class="layout-content w-full">
     @if(pageTitle$ | async; as title) {
     <event-trackr-top-bar [title]="title">
       <router-outlet></router-outlet>
