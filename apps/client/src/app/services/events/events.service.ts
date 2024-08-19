@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Response } from '@event-trackr/shared';
 import { environment } from 'apps/client/environments/environment';
+import { Observable } from 'rxjs';
 import { Events } from 'shared/src/lib/models/events.interface';
 
 @Injectable({
@@ -14,19 +16,27 @@ export class EventsService {
 
   constructor() {}
 
-  getEvents() {
+  getEvents(): Observable<Response<Events[]>> {
     const timestamp = new Date().getTime();
-    return this.httpClient.get(`${this.base_url}/events/${timestamp}`);
+    return this.httpClient.get<Response<Events[]>>(
+      `${this.base_url}/events/${timestamp}`,
+    );
   }
 
-  postEvent(event: Events) {
-    return this.httpClient.post(`${this.base_url}/events`, { event });
-  }
-
-  patchEvent(id: number, updatedEvent: Events) {
-    const params = new HttpParams().set('id', id);
-    return this.httpClient.patch(`${this.base_url}/events`, updatedEvent, {
-      params,
+  postEvent(event: Events): Observable<Response<Events>> {
+    return this.httpClient.post<Response<Events>>(`${this.base_url}/events`, {
+      event,
     });
+  }
+
+  patchEvent(id: number, updatedEvent: Events): Observable<Response<Events>> {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.patch<Response<Events>>(
+      `${this.base_url}/events`,
+      updatedEvent,
+      {
+        params,
+      },
+    );
   }
 }

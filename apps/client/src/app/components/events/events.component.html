@@ -1,65 +1,115 @@
-<div class="container">
-  <div class="grid align-items-center">
-    <div class="col-4">
-      <label for="">Seleccione Categoria</label>
-    </div>
-    <div class="col-8">
+<div class="flex w-full">
+  <form [formGroup]="formGroup" class="grid h-full gap-5 px-4 pb-2 pt-6">
+    <div class="flex gap-2 w-full">
       <p-dropdown
-        styleClass="w-full"
+        class="w-full"
         [options]="categories"
-        [(ngModel)]="selected_category"
+        formControlName="category"
         optionLabel="name"
-        appendTo="body"
         placeholder="Seleccione una Categoria"
+        [showClear]="true"
+      ></p-dropdown>
+      <p-floatLabel class="w-full">
+        <input class="w-full" type="text" pInputText formControlName="name" />
+        <label for="">Nombre del Evento</label>
+      </p-floatLabel>
+    </div>
+
+    <div class="flex gap-2 w-full">
+      <p-dropdown
+        class="w-full"
+        [options]="frequencies"
+        formControlName="frequency"
+        optionLabel="label"
+        placeholder="Frequencia del evento"
+        [showClear]="true"
       ></p-dropdown>
     </div>
-    <div class="col-4">
-      <label for="">Nombre del Evento:</label>
+
+    <div class="frequency w-full flex justify-content-center">
+      <p-selectButton
+        [options]="frequencyTypes"
+        [formControl]="frequencyTypeControl"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+      />
+
+      <p-floatLabel class="w-full pr-5">
+        @if(frequencyTypeControl.value === 'COUNT') {
+        <p-inputNumber
+          class="w-full"
+          formControlName="interval"
+          inputId="minmax"
+          mode="decimal"
+          [min]="0"
+          [max]="365"
+        />
+        <label for="minmax">Cantidad de Repeticiones</label>
+        } @else {
+        <p-calendar formControlName="until" class="w-full" />
+        <label for="minmax">Repetir hasta</label>
+        }
+      </p-floatLabel>
     </div>
-    <div class="col-8">
-      <input class="w-full" type="text" pInputText [(ngModel)]="name" />
+
+    <p-floatLabel class="w-full">
+      <input class="w-full" type="text" pInputText formControlName="source" />
+      <label>Fuente de origen</label>
+    </p-floatLabel>
+    <div *ngIf="edit_event" class="w-full">
+      <p-floatLabel>
+        <p-calendar
+          styleClass="w-full"
+          formControlName="date"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          appendTo="body"
+        ></p-calendar>
+        <label class="w-full" for="">Fecha del Evento</label>
+      </p-floatLabel>
     </div>
-    <div class="col-4">
-      <label>Fuente de origen: </label>
-    </div>
-    <div class="col-8">
-      <input class="w-full" type="text" pInputText [(ngModel)]="source" />
-    </div>
-    <div *ngIf="edit_event" class="col-4">
-      <label class="w-full" for="">Fecha del Evento:</label>
-    </div>
-    <div *ngIf="edit_event" class="col-8">
-      <p-calendar
-        styleClass="w-full"
-        [(ngModel)]="date"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        appendTo="body"
-      ></p-calendar>
-    </div>
-    <div class="col-12">
-      <label for="">Notas:</label> <br />
+    <p-floatLabel class="w-full">
       <textarea
         class="w-full"
         rows="3"
         cols="30"
         pInputTextarea
-        [(ngModel)]="notes"
+        formControlName="notes"
+        id="notes"
       ></textarea>
-    </div>
-  </div>
-  <div class="footer text-right">
-    <p-button
-      *ngIf="!edit_event"
-      label="Guardar"
-      (onClick)="saveEvent()"
-    ></p-button>
-    <p-button
-      *ngIf="edit_event"
-      label="Guardar"
-      (onClick)="updateEvent()"
-    ></p-button>
-  </div>
-</div>
+      <label for="notes">Notas</label>
+    </p-floatLabel>
 
-<p-toast></p-toast>
+    <div class="flex flex-column w-full gap-1">
+      <label for="images" class="pb-2 pl-2">Imagen de Evento</label>
+      <p-fileUpload
+        id="images"
+        class="w-full"
+        name="demo[]"
+        [multiple]="true"
+        accept="image/*"
+        maxFileSize="1000000"
+      >
+        <ng-template pTemplate="content">
+          @if(uploadedFiles.length) {
+          <ul>
+            @for(file of uploadedFiles; track file.name) {
+            <li>{{ file.name }} - {{ file.size }} bytes</li>
+            }
+          </ul>
+          }
+        </ng-template>
+      </p-fileUpload>
+    </div>
+
+    <div class="w-full footer text-center">
+      @if(edit_event) {
+      <p-button label="Actualizar" (onClick)="updateEvent()"></p-button>
+      } @else {
+      <p-button label="Guardar" (onClick)="saveEvent()"></p-button>
+      }
+    </div>
+  </form>
+  <p-toast></p-toast>
+</div>

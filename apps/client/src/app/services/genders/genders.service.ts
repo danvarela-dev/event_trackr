@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Gender, Response } from '@event-trackr/shared';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { environment } from 'apps/client/environments/environment';
 
 @Injectable()

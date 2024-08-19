@@ -115,6 +115,8 @@ const users_module_1 = __webpack_require__(35);
 const genders_module_1 = __webpack_require__(47);
 const events_module_1 = __webpack_require__(50);
 const vault_module_1 = __webpack_require__(54);
+const file_upload_module_1 = __webpack_require__(59);
+const google_module_1 = __webpack_require__(62);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -130,6 +132,8 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             vault_module_1.VaultModule,
+            file_upload_module_1.FileUploadModule,
+            google_module_1.GoogleModule,
         ],
         controllers: [],
         providers: [
@@ -1467,6 +1471,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], EventsEntity.prototype, "notes", void 0);
 tslib_1.__decorate([
+    (0, typeorm_1.Column)(),
+    tslib_1.__metadata("design:type", String)
+], EventsEntity.prototype, "frequency", void 0);
+tslib_1.__decorate([
     (0, typeorm_1.ManyToOne)(() => categories_entity_1.CategoriesEntity, category => category.id),
     (0, typeorm_1.JoinColumn)({ name: 'category_id' }),
     tslib_1.__metadata("design:type", typeof (_b = typeof categories_entity_1.CategoriesEntity !== "undefined" && categories_entity_1.CategoriesEntity) === "function" ? _b : Object)
@@ -1871,6 +1879,102 @@ tslib_1.__decorate([
 exports.VaultCategoryEntity = VaultCategoryEntity = tslib_1.__decorate([
     (0, typeorm_1.Entity)('vault_category')
 ], VaultCategoryEntity);
+
+
+/***/ }),
+/* 59 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileUploadModule = void 0;
+const tslib_1 = __webpack_require__(6);
+const common_1 = __webpack_require__(1);
+const file_upload_service_1 = __webpack_require__(60);
+const file_upload_controller_1 = __webpack_require__(61);
+let FileUploadModule = class FileUploadModule {
+};
+exports.FileUploadModule = FileUploadModule;
+exports.FileUploadModule = FileUploadModule = tslib_1.__decorate([
+    (0, common_1.Module)({
+        providers: [file_upload_service_1.FileUploadService],
+        controllers: [file_upload_controller_1.FileUploadController],
+    })
+], FileUploadModule);
+
+
+/***/ }),
+/* 60 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileUploadService = void 0;
+const tslib_1 = __webpack_require__(6);
+const common_1 = __webpack_require__(1);
+let FileUploadService = class FileUploadService {
+};
+exports.FileUploadService = FileUploadService;
+exports.FileUploadService = FileUploadService = tslib_1.__decorate([
+    (0, common_1.Injectable)()
+], FileUploadService);
+
+
+/***/ }),
+/* 61 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileUploadController = void 0;
+const tslib_1 = __webpack_require__(6);
+const common_1 = __webpack_require__(1);
+let FileUploadController = class FileUploadController {
+};
+exports.FileUploadController = FileUploadController;
+exports.FileUploadController = FileUploadController = tslib_1.__decorate([
+    (0, common_1.Controller)('file-upload')
+], FileUploadController);
+
+
+/***/ }),
+/* 62 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GoogleModule = void 0;
+const tslib_1 = __webpack_require__(6);
+const common_1 = __webpack_require__(1);
+const google_calendar_service_1 = __webpack_require__(63);
+let GoogleModule = class GoogleModule {
+};
+exports.GoogleModule = GoogleModule;
+exports.GoogleModule = GoogleModule = tslib_1.__decorate([
+    (0, common_1.Module)({
+        providers: [google_calendar_service_1.GoogleCalendarService],
+    })
+], GoogleModule);
+
+
+/***/ }),
+/* 63 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GoogleCalendarService = void 0;
+const tslib_1 = __webpack_require__(6);
+const common_1 = __webpack_require__(1);
+let GoogleCalendarService = class GoogleCalendarService {
+    constructor() {
+        this.apiKey = 'AIzaSyA7DSKRHG9d53-QZDguCJyVhWFnAGcJdz4';
+    }
+};
+exports.GoogleCalendarService = GoogleCalendarService;
+exports.GoogleCalendarService = GoogleCalendarService = tslib_1.__decorate([
+    (0, common_1.Injectable)()
+], GoogleCalendarService);
 
 
 /***/ })

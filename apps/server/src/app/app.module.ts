@@ -11,7 +11,8 @@ import { UsersModule } from './modules/users/users.module';
 import { GendersModule } from './modules/genders/genders.module';
 import { EventsModule } from './modules/events/events.module';
 import { VaultModule } from './modules/vault/vault.module';
-
+import { FileUploadModule } from './modules/file-upload/file-upload.module';
+import { GoogleModule } from './modules/google/google.module';
 @Module({
   imports: [
     GendersModule,
@@ -23,6 +24,8 @@ import { VaultModule } from './modules/vault/vault.module';
     AuthModule,
     UsersModule,
     VaultModule,
+    FileUploadModule,
+    GoogleModule,
   ],
   controllers: [],
   providers: [

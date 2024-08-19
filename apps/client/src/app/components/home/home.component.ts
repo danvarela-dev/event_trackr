@@ -138,8 +138,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getEvents() {
-    this.eventsService.getEvents().subscribe((res: any) => {
-      this.events = res.result;
+    this.eventsService.getEvents().subscribe(({ result }) => {
+      this.events = result;
       if (this.events) {
         this.calendarOptions = {
           ...this.calendarOptions,

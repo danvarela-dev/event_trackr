@@ -1,20 +1,30 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit } from "@angular/core";
-import { NgIf } from "@angular/common";
-import { DropdownModule } from "primeng/dropdown";
-import { CategoriesService } from "../../services/categories/categories.service";
-import { InputTextModule } from "primeng/inputtext";
-import { FormsModule } from "@angular/forms";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { ButtonModule } from "primeng/button";
-import { EventsService } from "../../services/events/events.service";
-import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
-import { CalendarModule } from "primeng/calendar";
-import { ToastModule } from "primeng/toast";
-import { ShareDataService } from "../../services/data/share-data.service";
-import { Category, Events } from "@event-trackr/shared";
-
+import { Component, OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { DropdownModule } from 'primeng/dropdown';
+import { CategoriesService } from '../../services/categories/categories.service';
+import { InputTextModule } from 'primeng/inputtext';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
+import { EventsService } from '../../services/events/events.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CalendarModule } from 'primeng/calendar';
+import { ToastModule } from 'primeng/toast';
+import { ShareDataService } from '../../services/data/share-data.service';
+import { Category, Events } from '@event-trackr/shared';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectButtonModule } from 'primeng/selectbutton';
 @Component({
   selector: 'event-trackr-events',
   standalone: true,
@@ -27,24 +37,54 @@ import { Category, Events } from "@event-trackr/shared";
     ButtonModule,
     CalendarModule,
     ToastModule,
+    FloatLabelModule,
+    FileUploadModule,
+    ReactiveFormsModule,
+    InputNumberModule,
+    SelectButtonModule,
   ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss',
   providers: [CategoriesService],
 })
 export class EventsComponent implements OnInit {
-  categories: any;
-  selected_category: Category = {
-    id: 0,
-    name: '',
-    color: '',
-  };
-  name: string;
-  notes: string;
-  source: string;
+  categories: Category[] = [];
   event: any;
   edit_event: boolean;
-  date: Date;
+  uploadedFiles: any[] = [];
+  frequencies = [
+    {
+      label: 'Diariamente',
+      value: 'DAILY',
+    },
+    {
+      label: 'Semanalmente',
+      value: 'WEEKLY',
+    },
+    {
+      label: 'Mensualmente',
+      value: 'MONTHLY',
+    },
+    {
+      label: 'Anualmente',
+      value: 'YEARLY',
+    },
+  ];
+
+  frequencyTypes = [
+    {
+      label: 'Numero de veces',
+      value: 'COUNT',
+    },
+    {
+      label: 'Hasta una fecha',
+      value: 'UNTIL',
+    },
+  ];
+
+  frequencyTypeControl = new FormControl();
+
+  formGroup: FormGroup;
 
   constructor(
     private categoriesService: CategoriesService,
@@ -52,40 +92,62 @@ export class EventsComponent implements OnInit {
     public dialogData: DynamicDialogConfig,
     private dialogRef: DynamicDialogRef,
     private shareDataService: ShareDataService,
+    private formBuilder: FormBuilder,
   ) {}
+
+  initForm() {
+    this.formGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      category: [null, Validators.required],
+      notes: ['', Validators.required],
+      source: ['', Validators.required],
+      date: ['', Validators.required],
+      frequency: [null, Validators.required],
+      interval: [null],
+      until: [null],
+    });
+  }
 
   ngOnInit(): void {
     this.getCategories();
+    this.initForm();
     this.event = this.dialogData.data.event;
     this.edit_event = this.dialogData.data.edit_event;
 
     if (this.edit_event) {
-      this.name =
-        this.event.event._def.title.indexOf(' ') !== -1
-          ? this.event.event._def.title.substring(
-              this.event.event._def.title.indexOf(' ') + 1,
-            )
-          : this.event.event._def.title;
-      this.selected_category = this.event.event._def.extendedProps.category;
-      this.notes = this.event.event._def.extendedProps.notes;
-      this.date = new Date(this.event.event.startStr);
-      this.source = this.event.event._def.extendedProps.source;
+      const { notes, date, source, category, title } =
+        this.event.event._def.extendedProps;
+
+      this.formGroup.patchValue({
+        name: title,
+        notes,
+        date,
+        source,
+        category,
+      });
     }
   }
 
-  async getCategories() {
+  getCategories() {
     this.categoriesService.getCategories().subscribe((categories: any) => {
       this.categories = categories.result;
     });
   }
 
+  onUpload(event: FileUploadEvent) {
+    for (const file of event.files) {
+      this.uploadedFiles.push(file);
+    }
+  }
+
   saveEvent() {
+    const { name, date, category, notes, source } = this.formGroup.value;
     const add_event: Events = {
-      name: this.name,
-      event_date: this.event.date,
-      category: this.selected_category,
-      notes: this.notes,
-      source: this.source,
+      name,
+      event_date: date,
+      category,
+      notes,
+      source,
     };
 
     if (add_event) {
@@ -97,12 +159,13 @@ export class EventsComponent implements OnInit {
   }
 
   updateEvent() {
+    const { name, date, category, notes, source } = this.formGroup.value;
     const update_event: Events = {
-      id: this.event.event._def.extendedProps.db_id,
-      name: this.name,
-      event_date: this.date,
-      category: this.selected_category,
-      notes: this.notes,
+      name,
+      event_date: date,
+      category,
+      notes,
+      source,
     };
 
     if (update_event) {
