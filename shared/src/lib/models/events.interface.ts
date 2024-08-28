@@ -11,7 +11,7 @@ export interface Events {
   endDate: Date;
   occurrences: number;
   category: Category;
-  createdBy: User;
+  createdBy?: User;
   updatedBy?: User;
   createdAt?: Date;
   updatedAt?: Date;

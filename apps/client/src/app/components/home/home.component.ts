@@ -11,7 +11,6 @@ import { AddEventsComponent } from '../events/add-events.component';
 import { EventsService } from '../../services/events/events.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ShareDataService } from '../../services/data/share-data.service';
 import esLocale from '@fullcalendar/core/locales/es-us';
 import { CommonModule } from '@angular/common';
 import { Events } from '@event-trackr/shared';
@@ -47,18 +46,11 @@ export class HomeComponent implements OnInit {
   };
 
   events$: Observable<Events[]>;
-  event_success: boolean | null;
 
   constructor(
     private dialogService: DialogService,
-    private shareDataService: ShareDataService,
-    private messageService: MessageService,
     private eventsService: EventsService,
-  ) {
-    this.shareDataService.data$.subscribe(data => {
-      this.event_success = data;
-    });
-  }
+  ) {}
 
   ref: DynamicDialogRef | undefined;
 
@@ -84,29 +76,16 @@ export class HomeComponent implements OnInit {
       width: '50%',
       modal: true,
       data: {
-        event: event,
+        eventData: event,
         edit_event: false,
       },
     });
 
-    this.ref.onClose.subscribe(() => {
-      setTimeout(() => {
-        if (!this.event_success) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo crear el Evento',
-          });
-        } else {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Exito',
-            detail: 'Evento creado correctamente',
-          });
-          this.getEvents();
-          this.calendarComponent.getApi().refetchEvents();
-        }
-      }, 100);
+    this.ref.onClose.subscribe(({ success }) => {
+      if (success) {
+        this.getEvents();
+        this.calendarComponent.getApi().refetchEvents();
+      }
     });
   }
 
@@ -116,33 +95,20 @@ export class HomeComponent implements OnInit {
       width: '50%',
       modal: true,
       data: {
-        event: event,
+        eventData: event,
         edit_event: true,
       },
     });
 
-    this.ref.onClose.subscribe(() => {
-      setTimeout(() => {
-        if (!this.event_success) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo actualizar el Evento',
-          });
-        } else {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Exito',
-            detail: 'Evento actualizado correctamente',
-          });
-          this.getEvents();
-          this.calendarComponent.getApi().refetchEvents();
-        }
-      }, 100);
+    this.ref.onClose.subscribe(({ success }) => {
+      if (success) {
+        this.getEvents();
+        this.calendarComponent.getApi().refetchEvents();
+      }
     });
   }
 
-  getEvents() {
+  getEvents(): void {
     this.events$ = this.eventsService.getEvents().pipe(
       map(({ result }) => {
         const events = result;
@@ -155,9 +121,7 @@ export class HomeComponent implements OnInit {
                 date: event.startDate,
                 color: event.category.color,
                 db_id: event.id,
-                category: event.category,
-                notes: event.notes,
-                source: event.source,
+                event,
               })),
             ],
           };

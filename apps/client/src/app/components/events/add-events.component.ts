@@ -19,12 +19,14 @@ import { EventsService } from '../../services/events/events.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
-import { ShareDataService } from '../../services/data/share-data.service';
-import { Category } from '@event-trackr/shared';
+import { Category, Events } from '@event-trackr/shared';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { MessageService } from 'primeng/api';
+import { catchError } from 'rxjs';
+import { EventInput } from '@fullcalendar/core';
 
 @Component({
   selector: 'event-trackr-events',
@@ -50,8 +52,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 })
 export class AddEventsComponent implements OnInit {
   categories: Category[] = [];
-  event: any;
-  edit_event: boolean;
+  event: EventInput;
+  editEvent: boolean;
   uploadedFiles: any[] = [];
   frequencies = [
     {
@@ -98,19 +100,19 @@ export class AddEventsComponent implements OnInit {
     private eventsService: EventsService,
     public dialogData: DynamicDialogConfig,
     private dialogRef: DynamicDialogRef,
-    private shareDataService: ShareDataService,
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
   ) {}
 
   initForm() {
     this.formGroup = this.formBuilder.group({
       name: [null, [Validators.required]],
       category: [null, Validators.required],
-      notes: [null, Validators.required],
+      notes: [null, Validators.required, Validators.maxLength(255)],
       source: [null, Validators.required],
       date: [null],
       frequency: [null, Validators.required],
-      occurrences: [null],
+      occurrences: [null, Validators.min(1)],
       endDate: [null],
     });
   }
@@ -118,20 +120,27 @@ export class AddEventsComponent implements OnInit {
   ngOnInit(): void {
     this.getCategories();
     this.initForm();
-    this.event = this.dialogData.data.event;
-    this.edit_event = this.dialogData.data.edit_event;
+    const { eventData, edit_event } = this.dialogData.data;
+    this.editEvent = edit_event;
+    this.event = eventData.event;
 
-    if (this.edit_event) {
-      const { notes, date, source, category, title } =
-        this.event.event._def.extendedProps;
+    if (edit_event) {
+      const { event } = eventData.event._def.extendedProps;
+      const selectedFrequency =
+        this.frequencies.find(({ value }) => value === event.frequency) ?? null;
 
       this.formGroup.patchValue({
-        name: title,
-        notes,
-        date,
-        source,
-        category,
+        name: event.name,
+        category: event.category,
+        notes: event.notes,
+        source: event.source,
+        date: new Date(event.startDate),
+        frequency: selectedFrequency,
+        occurrences: event.occurrences,
+        endDate: new Date(event.endDate),
       });
+
+      this.frequencyTypeControl.setValue(event.occurrences ? 'COUNT' : 'UNTIL');
     }
   }
 
@@ -155,7 +164,7 @@ export class AddEventsComponent implements OnInit {
 
     const add_event = {
       name,
-      startDate: this.event.date,
+      startDate: this.event.date as Date,
       category,
       notes,
       source,
@@ -165,28 +174,79 @@ export class AddEventsComponent implements OnInit {
       createdBy: currentUser,
     };
 
-    this.eventsService.postEvent(add_event).subscribe((res: any) => {
-      this.dialogRef.close();
-      this.shareDataService.sendData(res.statusCode === 201);
-    });
+    this.eventsService
+      .postEvent(add_event)
+      .pipe(
+        catchError(err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al guardar el evento',
+          });
+          return err;
+        }),
+      )
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Exito',
+          detail: 'Evento agregado exitosamente',
+        });
+      });
   }
 
   updateEvent() {
-    // const { name, date, category, notes, source } = this.formGroup.value;
-    // const update_event: Events = {
-    //   name,
-    //   event_date: date,
-    //   category,
-    //   notes,
-    //   source,
-    // };
-    // if (update_event) {
-    //   this.eventsService
-    //     .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
-    //     .subscribe((res: any) => {
-    //       this.dialogRef.close();
-    //       this.shareDataService.sendData(res.statusCode === 200);
-    //     });
-    // }
+    const {
+      name,
+      date: startDate,
+      category,
+      notes,
+      source,
+      endDate,
+      occurrences,
+      frequency,
+    } = this.formGroup.value;
+    const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+    const update_event: Events = {
+      name,
+      startDate,
+      category,
+      notes,
+      source,
+      endDate,
+      occurrences,
+      frequency: frequency.value,
+      updatedBy: currentUser,
+    };
+
+    const { db_id } = this.event.extendedProps as any;
+
+    if (update_event) {
+      this.eventsService
+        .patchEvent(db_id, update_event)
+        .pipe(
+          catchError(err => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error al actualizar el evento',
+            });
+            return err;
+          }),
+        )
+        .subscribe(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Exito',
+            detail: 'Evento actualizado exitosamente',
+          });
+
+          this.dialogRef.close({
+            success: true,
+          });
+        });
+    }
   }
 }

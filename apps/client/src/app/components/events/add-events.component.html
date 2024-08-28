@@ -58,7 +58,7 @@
       <input class="w-full" type="text" pInputText formControlName="source" />
       <label>Fuente de origen</label>
     </p-floatLabel>
-    <div *ngIf="edit_event" class="w-full">
+    <div *ngIf="editEvent" class="w-full">
       <p-floatLabel>
         <p-calendar
           styleClass="w-full"
@@ -81,7 +81,7 @@
       ></textarea>
       <label for="notes">Notas</label>
     </p-floatLabel>
-
+    <!--
     <div class="flex flex-column w-full gap-1">
       <label for="images" class="pb-2 pl-2">Imagen de Evento</label>
       <p-fileUpload
@@ -102,10 +102,10 @@
           }
         </ng-template>
       </p-fileUpload>
-    </div>
+    </div> -->
 
     <div class="w-full footer text-center">
-      @if (edit_event) {
+      @if (editEvent) {
       <p-button label="Actualizar" (onClick)="updateEvent()"></p-button>
       } @else {
       <p-button label="Guardar" (onClick)="saveEvent()"></p-button>
