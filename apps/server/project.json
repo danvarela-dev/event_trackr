@@ -20,18 +20,27 @@
         "assets": [
           "apps/server/src/assets"
         ],
-        "webpackConfig": "apps/server/webpack.config.js"
+        "webpackConfig": "apps/server/webpack.config.js",
+        "inspect": true
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "development": {
+          "optimization": false,
+          "sourceMap": true,
+          "inspect": true
+        },
+        "production": {
+          "optimization": true,
+          "sourceMap": false
+        }
       }
     },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "server:build"
+        "buildTarget": "server:build",
+        "inspect": true
       },
       "configurations": {
         "development": {

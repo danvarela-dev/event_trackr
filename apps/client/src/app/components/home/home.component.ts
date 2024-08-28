@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FullCalendarComponent,
   FullCalendarModule,
@@ -7,25 +7,31 @@ import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EventsComponent } from '../events/events.component';
+import { AddEventsComponent } from '../events/add-events.component';
 import { EventsService } from '../../services/events/events.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ShareDataService } from '../../services/data/share-data.service';
 import esLocale from '@fullcalendar/core/locales/es-us';
-import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Events } from '@event-trackr/shared';
+import { map, Observable } from 'rxjs';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'event-trackr-home',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, ToastModule],
+  imports: [
+    CommonModule,
+    FullCalendarModule,
+    ToastModule,
+    ProgressSpinnerModule,
+  ],
   providers: [DialogService, MessageService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent;
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -40,9 +46,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     height: 'calc(100vh - 124px)',
   };
 
-  events: Events[];
+  events$: Observable<Events[]>;
   event_success: boolean | null;
-  subscriptions: Subscription[] = [];
 
   constructor(
     private dialogService: DialogService,
@@ -74,7 +79,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addEvent(event: EventInput) {
-    this.ref = this.dialogService.open(EventsComponent, {
+    this.ref = this.dialogService.open(AddEventsComponent, {
       header: 'Crear Nuevo Evento',
       width: '50%',
       modal: true,
@@ -86,13 +91,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe(() => {
       setTimeout(() => {
-        if (this.event_success === false) {
+        if (!this.event_success) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
             detail: 'No se pudo crear el Evento',
           });
-        } else if (this.event_success === true) {
+        } else {
           this.messageService.add({
             severity: 'success',
             summary: 'Exito',
@@ -106,7 +111,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   editEvent(event: EventInput) {
-    this.ref = this.dialogService.open(EventsComponent, {
+    this.ref = this.dialogService.open(AddEventsComponent, {
       header: 'Modificar Eventos',
       width: '50%',
       modal: true,
@@ -118,13 +123,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe(() => {
       setTimeout(() => {
-        if (this.event_success === false) {
+        if (!this.event_success) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
             detail: 'No se pudo actualizar el Evento',
           });
-        } else if (this.event_success === true) {
+        } else {
           this.messageService.add({
             severity: 'success',
             summary: 'Exito',
@@ -138,28 +143,59 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getEvents() {
-    this.eventsService.getEvents().subscribe(({ result }) => {
-      this.events = result;
-      if (this.events) {
-        this.calendarOptions = {
-          ...this.calendarOptions,
-          events: [
-            ...this.events.map(event => ({
-              title: this.assignIcon(event.category.id).icon + event.name,
-              date: event.event_date,
-              color: event.category.color,
-              db_id: event.id,
-              category: event.category,
-              notes: event.notes,
-              source: event.source,
-            })),
-          ],
-        };
-      }
-    });
+    this.events$ = this.eventsService.getEvents().pipe(
+      map(({ result }) => {
+        const events = result;
+        if (events) {
+          this.calendarOptions = {
+            ...this.calendarOptions,
+            events: [
+              ...this.getExpandedEvent(events).map(event => ({
+                title: this.assignIcon(event.category.id).icon + event.name,
+                date: event.startDate,
+                color: event.category.color,
+                db_id: event.id,
+                category: event.category,
+                notes: event.notes,
+                source: event.source,
+              })),
+            ],
+          };
+        }
+
+        return events;
+      }),
+    );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
+  getExpandedEvent(event: Events[]): Events[] {
+    return event.flatMap(item => {
+      const expandedEvents = [];
+      const newDate = new Date(item.startDate);
+
+      if (item.occurrences) {
+        for (let i = 0; i < item.occurrences; i++) {
+          const newEvent = {
+            ...item,
+            startDate: new Date(newDate),
+          };
+          expandedEvents.push(newEvent);
+
+          if (item.frequency === 'DAILY') {
+            newDate.setDate(newDate.getDate() + 1);
+          } else if (item.frequency === 'WEELKY') {
+            newDate.setDate(newDate.getDate() + 7);
+          } else if (item.frequency === 'MONTHLY') {
+            newDate.setMonth(newDate.getMonth() + 1);
+          } else if (item.frequency === 'YEARLY') {
+            newDate.setFullYear(newDate.getFullYear() + 1);
+          }
+        }
+      } else {
+        expandedEvents.push(item);
+      }
+
+      return expandedEvents;
+    });
   }
 }

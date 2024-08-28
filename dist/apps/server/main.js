@@ -1389,7 +1389,7 @@ let EventsService = class EventsService {
     }
     async getAllEvents() {
         return await this.eventsRepository.find({
-            relations: ['category'],
+            relations: ['category', 'createdBy', 'updatedBy'],
         });
     }
     async getEventById(id) {
@@ -1401,17 +1401,15 @@ let EventsService = class EventsService {
     }
     async createEvent(event) {
         try {
-            const new_event = new events_entity_1.EventsEntity();
-            new_event.name = event.name;
-            new_event.category = event.category;
-            new_event.event_date = event.event_date;
-            new_event.notes = event.notes;
-            new_event.source = event.source;
-            await this.eventsRepository.save(new_event);
+            event = {
+                ...event,
+                startDate: new Date(event.startDate),
+                ...(event.endDate ? { end_date: new Date(event.endDate) } : {}),
+            };
+            await this.eventsRepository.save(event);
             return true;
         }
         catch (error) {
-            console.error(error);
             return false;
         }
     }
@@ -1445,11 +1443,12 @@ exports.EventsService = EventsService = tslib_1.__decorate([
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-var _a, _b;
+var _a, _b, _c, _d, _e, _f, _g;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventsEntity = void 0;
 const tslib_1 = __webpack_require__(6);
 const typeorm_1 = __webpack_require__(15);
+const users_entity_1 = __webpack_require__(16);
 const categories_entity_1 = __webpack_require__(41);
 let EventsEntity = class EventsEntity {
 };
@@ -1459,30 +1458,66 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], EventsEntity.prototype, "id", void 0);
 tslib_1.__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
     tslib_1.__metadata("design:type", String)
 ], EventsEntity.prototype, "name", void 0);
 tslib_1.__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'start_date', type: 'datetime' }),
     tslib_1.__metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
-], EventsEntity.prototype, "event_date", void 0);
+], EventsEntity.prototype, "startDate", void 0);
 tslib_1.__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], EventsEntity.prototype, "notes", void 0);
 tslib_1.__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    tslib_1.__metadata("design:type", String)
+], EventsEntity.prototype, "source", void 0);
+tslib_1.__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], EventsEntity.prototype, "frequency", void 0);
 tslib_1.__decorate([
+    (0, typeorm_1.Column)({ name: 'end_date', type: 'datetime', nullable: true }),
+    tslib_1.__metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+], EventsEntity.prototype, "endDate", void 0);
+tslib_1.__decorate([
+    (0, typeorm_1.Column)({ type: 'int', nullable: true }),
+    tslib_1.__metadata("design:type", Number)
+], EventsEntity.prototype, "occurrences", void 0);
+tslib_1.__decorate([
     (0, typeorm_1.ManyToOne)(() => categories_entity_1.CategoriesEntity, category => category.id),
     (0, typeorm_1.JoinColumn)({ name: 'category_id' }),
-    tslib_1.__metadata("design:type", typeof (_b = typeof categories_entity_1.CategoriesEntity !== "undefined" && categories_entity_1.CategoriesEntity) === "function" ? _b : Object)
+    tslib_1.__metadata("design:type", typeof (_c = typeof categories_entity_1.CategoriesEntity !== "undefined" && categories_entity_1.CategoriesEntity) === "function" ? _c : Object)
 ], EventsEntity.prototype, "category", void 0);
 tslib_1.__decorate([
-    (0, typeorm_1.Column)(),
-    tslib_1.__metadata("design:type", String)
-], EventsEntity.prototype, "source", void 0);
+    (0, typeorm_1.ManyToOne)(() => users_entity_1.UsersEntity, user => user.id),
+    (0, typeorm_1.JoinColumn)({ name: 'created_by' }),
+    tslib_1.__metadata("design:type", typeof (_d = typeof users_entity_1.UsersEntity !== "undefined" && users_entity_1.UsersEntity) === "function" ? _d : Object)
+], EventsEntity.prototype, "createdBy", void 0);
+tslib_1.__decorate([
+    (0, typeorm_1.ManyToOne)(() => users_entity_1.UsersEntity, user => user.id),
+    (0, typeorm_1.JoinColumn)({ name: 'updated_by' }),
+    tslib_1.__metadata("design:type", typeof (_e = typeof users_entity_1.UsersEntity !== "undefined" && users_entity_1.UsersEntity) === "function" ? _e : Object)
+], EventsEntity.prototype, "updatedBy", void 0);
+tslib_1.__decorate([
+    (0, typeorm_1.Column)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP',
+        name: 'created_at',
+    }),
+    tslib_1.__metadata("design:type", typeof (_f = typeof Date !== "undefined" && Date) === "function" ? _f : Object)
+], EventsEntity.prototype, "createdAt", void 0);
+tslib_1.__decorate([
+    (0, typeorm_1.Column)({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP',
+        name: 'updated_at',
+    }),
+    tslib_1.__metadata("design:type", typeof (_g = typeof Date !== "undefined" && Date) === "function" ? _g : Object)
+], EventsEntity.prototype, "updatedAt", void 0);
 exports.EventsEntity = EventsEntity = tslib_1.__decorate([
     (0, typeorm_1.Entity)('events')
 ], EventsEntity);
@@ -1742,10 +1777,12 @@ let VaultService = class VaultService {
             ],
             relations: ['vaultCategory'],
         });
-        return {
-            ...result,
-            password: await this.encryptionService.decryptString(result.password),
-        };
+        return result
+            ? {
+                ...result,
+                password: await this.encryptionService.decryptString(result.password),
+            }
+            : null;
     }
     async updateVault(id, newVault) {
         const vault = await this.vaultRepository.findOne({
@@ -2024,7 +2061,7 @@ async function bootstrap() {
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
     app.useGlobalInterceptors(new response_interceptor_service_1.ResponseInterceptor());
-    const port = process.env.PORT || 3000;
+    const port = process.env['PORT'] || 3000;
     const document = swagger_1.SwaggerModule.createDocument(app, swagger_config_1.swaggerConfig);
     swagger_1.SwaggerModule.setup('swagger', app, document);
     await app.listen(port);
@@ -2039,3 +2076,4 @@ for(var i in __webpack_exports__) __webpack_export_target__[i] = __webpack_expor
 if(__webpack_exports__.__esModule) Object.defineProperty(__webpack_export_target__, "__esModule", { value: true });
 /******/ })()
 ;
+//# sourceMappingURL=main.js.map

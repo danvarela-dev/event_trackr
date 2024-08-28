@@ -1,4 +1,10 @@
-<div *ngIf="calendarOptions" class="container-calendar">
+<div class="container-calendar">
+  @if(events$ | async) {
   <full-calendar [options]="calendarOptions"></full-calendar>
+  } @else {
+  <p-progressSpinner
+    class="w-full flex justify-content-center align-center"
+  ></p-progressSpinner>
+  }
 </div>
 <p-toast></p-toast>

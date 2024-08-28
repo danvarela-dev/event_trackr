@@ -45,7 +45,7 @@ export class VaultService {
     return await this.vaultCategoryRepository.find();
   }
 
-  async findById(id: number): Promise<VaultEntity> {
+  async findById(id: number): Promise<VaultEntity | null> {
     const result = await this.vaultRepository.findOne({
       where: {
         id,
@@ -64,10 +64,12 @@ export class VaultService {
       relations: ['vaultCategory'],
     });
 
-    return {
-      ...result,
-      password: await this.encryptionService.decryptString(result.password),
-    };
+    return result
+      ? {
+          ...result,
+          password: await this.encryptionService.decryptString(result.password),
+        }
+      : null;
   }
 
   async updateVault(id: number, newVault: Vault): Promise<VaultEntity> {

@@ -12,7 +12,7 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new ResponseInterceptor());
-  const port = process.env.PORT || 3000;
+  const port = process.env['PORT'] || 3000;
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('swagger', app, document);
 

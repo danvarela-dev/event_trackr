@@ -24,14 +24,14 @@
           ></p-button>
           {{ eventType.type }}
         </td>
-        <td>{{ getEventCount(eventType.id) }}</td>
+        <td>{{ 0 }}</td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="rowexpansion" let-eventType>
       <tr>
         <td colspan="2">
-          <p-table [value]="filterEvents(eventType.id)" dataKey="id">
+          <p-table [value]="[]" dataKey="id">
             <ng-template pTemplate="header">
               <tr>
                 <th>Evento</th>
@@ -44,7 +44,7 @@
             <ng-template pTemplate="body" let-event>
               <tr>
                 <td>{{ event.name }}</td>
-                <td>{{ event.event_date.split('T')[0] }}</td>
+                <td>{{ event.event_date | date }}</td>
                 <td>{{ event.notes }}</td>
                 <td>{{ event.category.name }}</td>
                 <td>

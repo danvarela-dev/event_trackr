@@ -44,6 +44,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "swagger-ui-express": "^5.0.0",
+    "ts-loader": "^9.5.1",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.20",
     "zone.js": "~0.14.0"
@@ -69,7 +70,7 @@
     "@nx/nest": "17.2.8",
     "@nx/node": "17.2.8",
     "@nx/web": "17.2.8",
-    "@nx/webpack": "17.2.8",
+    "@nx/webpack": "^17.2.8",
     "@nx/workspace": "17.2.8",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@schematics/angular": "~17.0.0",
@@ -97,8 +98,9 @@
     "postcss": "^8.4.5",
     "prettier": "^2.6.2",
     "react-refresh": "^0.10.0",
+    "source-map-support": "^0.5.21",
     "ts-jest": "^29.1.0",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "~5.2.2",
     "url-loader": "^4.1.1"
   }

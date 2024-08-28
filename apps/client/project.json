@@ -58,12 +58,24 @@
               "maximumError": "4mb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client/environments/environment.ts",
+              "with": "apps/client/environments/environment.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/client/environments/environment.ts",
+              "with": "apps/client/environments/environment.development.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"

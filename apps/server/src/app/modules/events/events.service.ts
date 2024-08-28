@@ -14,7 +14,7 @@ export class EventsService {
 
   async getAllEvents(): Promise<EventsEntity[]> {
     return await this.eventsRepository.find({
-      relations: ['category'],
+      relations: ['category', 'createdBy', 'updatedBy'],
     });
   }
 
@@ -28,16 +28,15 @@ export class EventsService {
 
   async createEvent(event: Events): Promise<boolean> {
     try {
-      const new_event = new EventsEntity();
-      new_event.name = event.name;
-      new_event.category = event.category;
-      new_event.event_date = event.event_date;
-      new_event.notes = event.notes;
-      new_event.source = event.source;
-      await this.eventsRepository.save(new_event);
+      event = {
+        ...event,
+        startDate: new Date(event.startDate),
+        ...(event.endDate ? { end_date: new Date(event.endDate) } : {}),
+      };
+
+      await this.eventsRepository.save(event);
       return true;
     } catch (error) {
-      console.error(error);
       return false;
     }
   }

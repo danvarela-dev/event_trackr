@@ -39,47 +39,12 @@ export class EventSummaryComponent implements OnInit {
   }
 
   getEvents() {
-    this.eventsService.getEvents().subscribe((event: any) => {
-      this.events = event.result;
-      this.classifyEvents(this.events);
+    this.eventsService.getEvents().subscribe(({ result }) => {
+      this.events = result;
     });
   }
 
-  filterEvents(eventTypeId: number): Events[] {
-    return this.events.filter(event => event.eventType === eventTypeId);
-  }
-
-  getEventCount(eventTypeId: number): number {
-    if (this.events) {
-      return this.events.filter(event => event.eventType === eventTypeId)
-        .length;
-    } else {
-      return 0;
-    }
-  }
-
-  classifyEvents(events: Events[]) {
-    const today = new Date();
-    const currentDate =
-      today.getFullYear() +
-      '-' +
-      (today.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      today.getDate().toString().padStart(2, '0');
-    const weekLater = new Date();
-    weekLater.setDate(weekLater.getDate() + 7);
-    const weekLaterDate = weekLater.toISOString().split('T')[0];
-
-    for (const event of events) {
-      const eventDate = new Date(event.event_date).toISOString().split('T')[0];
-
-      if (eventDate === currentDate) {
-        event.eventType = 1;
-      } else if (eventDate > currentDate && eventDate <= weekLaterDate) {
-        event.eventType = 2;
-      } else {
-        event.eventType = 3;
-      }
-    }
-  }
+  // filterEvents(eventTypeId: number): Events[] {
+  //   return [];
+  // }
 }

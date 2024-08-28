@@ -20,11 +20,12 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { ShareDataService } from '../../services/data/share-data.service';
-import { Category, Events } from '@event-trackr/shared';
+import { Category } from '@event-trackr/shared';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
+
 @Component({
   selector: 'event-trackr-events',
   standalone: true,
@@ -43,31 +44,37 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     InputNumberModule,
     SelectButtonModule,
   ],
-  templateUrl: './events.component.html',
-  styleUrl: './events.component.scss',
+  templateUrl: './add-events.component.html',
+  styleUrl: './add-events.component.scss',
   providers: [CategoriesService],
 })
-export class EventsComponent implements OnInit {
+export class AddEventsComponent implements OnInit {
   categories: Category[] = [];
   event: any;
   edit_event: boolean;
   uploadedFiles: any[] = [];
   frequencies = [
     {
-      label: 'Diariamente',
-      value: 'DAILY',
+      label: 'Anualmente',
+      value: 'YEARLY',
     },
+
+    {
+      label: 'Mensualmente',
+      value: 'MONTHLY',
+    },
+
     {
       label: 'Semanalmente',
       value: 'WEEKLY',
     },
     {
-      label: 'Mensualmente',
-      value: 'MONTHLY',
+      label: 'Diariamente',
+      value: 'DAILY',
     },
     {
-      label: 'Anualmente',
-      value: 'YEARLY',
+      label: 'Una vez',
+      value: 'ONCE',
     },
   ];
 
@@ -82,7 +89,7 @@ export class EventsComponent implements OnInit {
     },
   ];
 
-  frequencyTypeControl = new FormControl();
+  frequencyTypeControl = new FormControl('COUNT');
 
   formGroup: FormGroup;
 
@@ -97,14 +104,14 @@ export class EventsComponent implements OnInit {
 
   initForm() {
     this.formGroup = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: [null, [Validators.required]],
       category: [null, Validators.required],
-      notes: ['', Validators.required],
-      source: ['', Validators.required],
-      date: ['', Validators.required],
+      notes: [null, Validators.required],
+      source: [null, Validators.required],
+      date: [null],
       frequency: [null, Validators.required],
-      interval: [null],
-      until: [null],
+      occurrences: [null],
+      endDate: [null],
     });
   }
 
@@ -141,40 +148,45 @@ export class EventsComponent implements OnInit {
   }
 
   saveEvent() {
-    const { name, date, category, notes, source } = this.formGroup.value;
-    const add_event: Events = {
+    const { name, category, notes, source, endDate, occurrences, frequency } =
+      this.formGroup.value;
+
+    const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+    const add_event = {
       name,
-      event_date: date,
+      startDate: this.event.date,
       category,
       notes,
       source,
+      endDate,
+      occurrences,
+      frequency: frequency.value,
+      createdBy: currentUser,
     };
 
-    if (add_event) {
-      this.eventsService.postEvent(add_event).subscribe((res: any) => {
-        this.dialogRef.close();
-        this.shareDataService.sendData(res.statusCode === 201);
-      });
-    }
+    this.eventsService.postEvent(add_event).subscribe((res: any) => {
+      this.dialogRef.close();
+      this.shareDataService.sendData(res.statusCode === 201);
+    });
   }
 
   updateEvent() {
-    const { name, date, category, notes, source } = this.formGroup.value;
-    const update_event: Events = {
-      name,
-      event_date: date,
-      category,
-      notes,
-      source,
-    };
-
-    if (update_event) {
-      this.eventsService
-        .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
-        .subscribe((res: any) => {
-          this.dialogRef.close();
-          this.shareDataService.sendData(res.statusCode === 200);
-        });
-    }
+    // const { name, date, category, notes, source } = this.formGroup.value;
+    // const update_event: Events = {
+    //   name,
+    //   event_date: date,
+    //   category,
+    //   notes,
+    //   source,
+    // };
+    // if (update_event) {
+    //   this.eventsService
+    //     .patchEvent(this.event.event._def.extendedProps.db_id, update_event)
+    //     .subscribe((res: any) => {
+    //       this.dialogRef.close();
+    //       this.shareDataService.sendData(res.statusCode === 200);
+    //     });
+    // }
   }
 }

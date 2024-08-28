@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Response, User } from '@event-trackr/shared';
 import { environment } from '../../../../environments/environment';
-import { User, Response } from '@event-trackr/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,6 @@ export class AuthenticationService {
 
   httpClient = inject(HttpClient);
 
-  loggedInUser$ = new BehaviorSubject<User | null>(null);
   loggedIn$ = new BehaviorSubject<boolean>(false);
 
   login(credentials: {

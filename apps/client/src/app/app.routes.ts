@@ -4,7 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 export const appRoutes: Route[] = [
-{
+  {
     path: 'login',
     component: LoginComponent,
   },
@@ -39,8 +39,8 @@ export const appRoutes: Route[] = [
         path: 'events',
         data: { title: 'Eventos' },
         loadComponent: () =>
-          import('./components/events/events.component').then(
-            m => m.EventsComponent,
+          import('./components/events/add-events.component').then(
+            m => m.AddEventsComponent,
           ),
       },
       {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
-import { EventsComponent } from '../events/events.component';
+import { AddEventsComponent } from '../events/add-events.component';
 import {
   ActivatedRoute,
   IsActiveMatchOptions,
@@ -26,7 +26,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
   imports: [
     CommonModule,
     SidebarModule,
-    EventsComponent,
+    AddEventsComponent,
     EventSummaryComponent,
     RouterLink,
     ButtonModule,

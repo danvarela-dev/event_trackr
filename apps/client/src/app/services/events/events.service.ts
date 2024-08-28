@@ -1,11 +1,9 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Response } from '@event-trackr/shared';
-import { environment } from 'apps/client/environments/environment';
 import { Observable } from 'rxjs';
 import { Events } from 'shared/src/lib/models/events.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +11,6 @@ import { Events } from 'shared/src/lib/models/events.interface';
 export class EventsService {
   private base_url = environment.api;
   httpClient = inject(HttpClient);
-
-  constructor() {}
 
   getEvents(): Observable<Response<Events[]>> {
     const timestamp = new Date().getTime();

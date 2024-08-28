@@ -9,9 +9,10 @@
         placeholder="Seleccione una Categoria"
         [showClear]="true"
       ></p-dropdown>
+
       <p-floatLabel class="w-full">
         <input class="w-full" type="text" pInputText formControlName="name" />
-        <label for="">Nombre del Evento</label>
+        <label for="name">Nombre del Evento</label>
       </p-floatLabel>
     </div>
 
@@ -36,10 +37,10 @@
       />
 
       <p-floatLabel class="w-full pr-5">
-        @if(frequencyTypeControl.value === 'COUNT') {
+        @if (frequencyTypeControl.value === 'COUNT') {
         <p-inputNumber
           class="w-full"
-          formControlName="interval"
+          formControlName="occurrences"
           inputId="minmax"
           mode="decimal"
           [min]="0"
@@ -47,7 +48,7 @@
         />
         <label for="minmax">Cantidad de Repeticiones</label>
         } @else {
-        <p-calendar formControlName="until" class="w-full" />
+        <p-calendar formControlName="endDate" class="w-full" />
         <label for="minmax">Repetir hasta</label>
         }
       </p-floatLabel>
@@ -92,9 +93,9 @@
         maxFileSize="1000000"
       >
         <ng-template pTemplate="content">
-          @if(uploadedFiles.length) {
+          @if (uploadedFiles.length) {
           <ul>
-            @for(file of uploadedFiles; track file.name) {
+            @for (file of uploadedFiles; track file.name) {
             <li>{{ file.name }} - {{ file.size }} bytes</li>
             }
           </ul>
@@ -104,7 +105,7 @@
     </div>
 
     <div class="w-full footer text-center">
-      @if(edit_event) {
+      @if (edit_event) {
       <p-button label="Actualizar" (onClick)="updateEvent()"></p-button>
       } @else {
       <p-button label="Guardar" (onClick)="saveEvent()"></p-button>
