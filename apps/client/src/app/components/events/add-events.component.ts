@@ -1,7 +1,7 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgStyle } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { CategoriesService } from '../../services/categories/categories.service';
 import { InputTextModule } from 'primeng/inputtext';
@@ -33,6 +33,7 @@ import { EventInput } from '@fullcalendar/core';
   standalone: true,
   imports: [
     NgIf,
+    NgStyle,
     DropdownModule,
     InputTextModule,
     FormsModule,

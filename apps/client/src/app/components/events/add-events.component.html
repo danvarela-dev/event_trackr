@@ -1,14 +1,24 @@
 <div class="flex w-full">
-  <form [formGroup]="formGroup" class="grid h-full gap-5 px-4 pb-2 pt-6">
-    <div class="flex gap-2 w-full">
+  <form [formGroup]="formGroup" class="grid h-full gap-5 pb-2 pt-6">
+    <div class="w-full flex flex-column gap-4 lg:flex-row lg:gap-2">
       <p-dropdown
-        class="w-full"
+        class="w-full animation-linear"
         [options]="categories"
         formControlName="category"
         optionLabel="name"
         placeholder="Seleccione una Categoria"
         [showClear]="true"
-      ></p-dropdown>
+      >
+        <ng-template let-category pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div
+              [ngStyle]="{ backgroundColor: category.color }"
+              style="width: 16px; height: 16px; border-radius: 4px"
+            ></div>
+            <div>{{ category.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
 
       <p-floatLabel class="w-full">
         <input class="w-full" type="text" pInputText formControlName="name" />
@@ -27,7 +37,9 @@
       ></p-dropdown>
     </div>
 
-    <div class="frequency w-full flex justify-content-center">
+    <div
+      class="frequency w-full flex flex-column justify-content-center gap-4 lg:gap-2 lg:flex-row"
+    >
       <p-selectButton
         [options]="frequencyTypes"
         [formControl]="frequencyTypeControl"
@@ -36,7 +48,7 @@
         class="w-full"
       />
 
-      <p-floatLabel class="w-full pr-5">
+      <p-floatLabel class="w-full lg:pr-5">
         @if (frequencyTypeControl.value === 'COUNT') {
         <p-inputNumber
           class="w-full"

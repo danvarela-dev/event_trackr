@@ -1,8 +1,10 @@
-<div class="layout-container flex overflow-x-auto">
+<div
+  class="layout-container p-3 flex gap-4 h-screen w-screen flex overflow-x-auto"
+>
   <head>
     <link rel="preconnect" href="https://avatar.iran.liara.run" />
   </head>
-  <div class="sidebar">
+  <div class="sidebar p-3">
     <div class="sidebar-items">
       @for (item of sidebarItems; track item.id) {
       <div class="sidebar-item">
@@ -26,7 +28,7 @@
     </div>
   </div>
 
-  <div class="layout-content w-full">
+  <div class="layout-content w-full h-full p-3">
     @if(pageTitle$ | async; as title) {
     <event-trackr-top-bar [title]="title">
       <router-outlet></router-outlet>

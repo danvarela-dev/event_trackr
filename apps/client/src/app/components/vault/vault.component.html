@@ -1,4 +1,4 @@
-<div class="vault">
+<div class="vault flex flex-column">
   <header class="flex flex-row-reverse">
     <p-button
       label="Agregar Credencial"
@@ -10,7 +10,7 @@
   </header>
 
   <div
-    class="vault-body p-4 flex justify-content-center flex-wrap grid overflow-y-auto gap-3 mt-4"
+    class="flex justify-content-center flex-wrap grid overflow-y-scroll gap-3 mt-3"
   >
     @if(vault$ | async; as vault) { @for(item of vault; track item.id) {
     <event-trackr-vault-card

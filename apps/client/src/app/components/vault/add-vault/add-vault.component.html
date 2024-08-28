@@ -9,13 +9,7 @@
           formControlName="vaultCategory"
           optionLabel="name"
           placeholder="Seleccione una categoría"
-        >
-          <ng-template let-category pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ category.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+        />
         <p-floatLabel class="w-full">
           <input pInputText id="name" formControlName="name" class="w-full" />
           <label for="name">Nombre</label>

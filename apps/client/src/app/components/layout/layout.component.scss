@@ -12,20 +12,13 @@
 
   .layout-content {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    max-height: calc(100vh - 60px);
-    padding: 16px;
     box-sizing: border-box;
-    margin: 16px;
     border-radius: 15px;
     background: white;
   }
 
   .sidebar {
-    margin: 16px;
-    padding: 16px 16px;
     border-radius: 15px;
-    max-width: 240px;
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

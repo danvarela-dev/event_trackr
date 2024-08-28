@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     eventDisplay: 'block',
     locale: esLocale,
     dayMaxEvents: 3,
-    height: 'calc(100vh - 124px)',
+    height: 'calc(100vh - 138px)',
     firstDay: 1,
     dayHeaderFormat: { weekday: 'short' },
   };
