@@ -173,23 +173,40 @@ export class HomeComponent implements OnInit {
       const expandedEvents = [];
       const newDate = new Date(item.startDate);
 
+      const incrementDate = (frequency: string | undefined) => {
+        switch (frequency) {
+          case 'DAILY':
+            newDate.setDate(newDate.getDate() + 1);
+            break;
+          case 'WEEKLY':
+            newDate.setDate(newDate.getDate() + 7);
+            break;
+          case 'MONTHLY':
+            newDate.setMonth(newDate.getMonth() + 1);
+            break;
+          case 'YEARLY':
+            newDate.setFullYear(newDate.getFullYear() + 1);
+            break;
+        }
+      };
+
+      const addEvent = () => {
+        expandedEvents.push({
+          ...item,
+          startDate: new Date(newDate),
+        });
+      };
+
       if (item.occurrences) {
         for (let i = 0; i < item.occurrences; i++) {
-          const newEvent = {
-            ...item,
-            startDate: new Date(newDate),
-          };
-          expandedEvents.push(newEvent);
-
-          if (item.frequency === 'DAILY') {
-            newDate.setDate(newDate.getDate() + 1);
-          } else if (item.frequency === 'WEELKY') {
-            newDate.setDate(newDate.getDate() + 7);
-          } else if (item.frequency === 'MONTHLY') {
-            newDate.setMonth(newDate.getMonth() + 1);
-          } else if (item.frequency === 'YEARLY') {
-            newDate.setFullYear(newDate.getFullYear() + 1);
-          }
+          addEvent();
+          incrementDate(item.frequency);
+        }
+      } else if (item.endDate) {
+        const endDate = new Date(item.endDate);
+        while (newDate <= endDate) {
+          addEvent();
+          incrementDate(item.frequency);
         }
       } else {
         expandedEvents.push(item);
