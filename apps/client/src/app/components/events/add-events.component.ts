@@ -108,11 +108,11 @@ export class AddEventsComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: [null, [Validators.required]],
       category: [null, Validators.required],
-      notes: [null, Validators.required, Validators.maxLength(255)],
-      source: [null, Validators.required],
+      notes: [null, Validators.maxLength(255)],
+      source: ['Google Calendar'],
       date: [null],
       frequency: [null, Validators.required],
-      occurrences: [null, Validators.min(1)],
+      occurrences: [null],
       endDate: [null],
     });
   }
@@ -122,7 +122,11 @@ export class AddEventsComponent implements OnInit {
     this.initForm();
     const { eventData, edit_event } = this.dialogData.data;
     this.editEvent = edit_event;
-    this.event = eventData.event;
+    if (this.editEvent) {
+      this.event = eventData.event;
+    } else {
+      this.event = eventData;
+    }
 
     if (edit_event) {
       const { event } = eventData.event._def.extendedProps;
@@ -183,11 +187,18 @@ export class AddEventsComponent implements OnInit {
             summary: 'Error',
             detail: 'Error al guardar el evento',
           });
+
+          this.dialogRef.close({
+            success: false,
+          });
+
           return err;
         }),
       )
       .subscribe(() => {
-        this.dialogRef.close();
+        this.dialogRef.close({
+          success: true,
+        });
         this.messageService.add({
           severity: 'success',
           summary: 'Exito',
@@ -233,6 +244,11 @@ export class AddEventsComponent implements OnInit {
               summary: 'Error',
               detail: 'Error al actualizar el evento',
             });
+
+            this.dialogRef.close({
+              success: false,
+            });
+
             return err;
           }),
         )

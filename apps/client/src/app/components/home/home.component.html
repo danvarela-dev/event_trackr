@@ -1,7 +1,11 @@
 <div class="container-calendar">
-  @if(events$ | async) {
-  <full-calendar [options]="calendarOptions"></full-calendar>
-  } @else {
+  <full-calendar [options]="calendarOptions">
+    <ng-template #eventContent let-arg>
+      <!-- todo: add emoji support to better identify categories -->
+      <b> {{ arg.event.title }}</b>
+    </ng-template>
+  </full-calendar>
+  @if(!(events$ | async)) {
   <p-progressSpinner
     class="w-full flex justify-content-center align-center"
   ></p-progressSpinner>

@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
     locale: esLocale,
     dayMaxEvents: 3,
     height: 'calc(100vh - 124px)',
+    firstDay: 1,
+    dayHeaderFormat: { weekday: 'short' },
   };
 
   events$: Observable<Events[]>;
@@ -62,12 +64,14 @@ export class HomeComponent implements OnInit {
     return category === 1
       ? { icon: '🎂 ', color: '#90EE90' }
       : category === 2
-      ? { icon: '👪 ', color: '#FFA500' }
+      ? { icon: '🕊️ ', color: '#FFA500' }
       : category === 3
-      ? { icon: '👓 ', color: '#9370DB' }
+      ? { icon: '🎂🕊️ ', color: '#9370DB' }
       : category === 4
-      ? { icon: '❔ ', color: '#808080' }
-      : { icon: '', color: '' };
+      ? { icon: '🧑🏼‍🤝‍👩🏼🎉 ', color: '#808080' }
+      : category === 5
+      ? { icon: '🎉 ', color: '#808080' }
+      : { icon: '❓ ', color: '' };
   }
 
   addEvent(event: EventInput) {

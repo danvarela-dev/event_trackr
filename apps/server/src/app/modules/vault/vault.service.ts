@@ -38,6 +38,9 @@ export class VaultService {
         'updated_at',
       ],
       relations: ['vaultCategory'],
+      order: {
+        id: 'DESC',
+      },
     });
   }
 

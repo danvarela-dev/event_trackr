@@ -22,7 +22,9 @@
     </event-trackr-vault-card>
     } @empty {
     <p>No hay credenciales en esta bóveda.</p>
-    } }
+    } } @else {
+    <p-progressSpinner class="w-full flex justify-content-center" />
+    }
   </div>
 </div>
 <p-confirmDialog />

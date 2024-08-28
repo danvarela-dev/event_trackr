@@ -116,7 +116,6 @@ const genders_module_1 = __webpack_require__(47);
 const events_module_1 = __webpack_require__(50);
 const vault_module_1 = __webpack_require__(54);
 const file_upload_module_1 = __webpack_require__(59);
-const google_module_1 = __webpack_require__(62);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -133,7 +132,6 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             users_module_1.UsersModule,
             vault_module_1.VaultModule,
             file_upload_module_1.FileUploadModule,
-            google_module_1.GoogleModule,
         ],
         controllers: [],
         providers: [
@@ -1754,6 +1752,9 @@ let VaultService = class VaultService {
                 'updated_at',
             ],
             relations: ['vaultCategory'],
+            order: {
+                id: 'DESC',
+            },
         });
     }
     async getAllVaultCategories() {
@@ -1972,46 +1973,6 @@ exports.FileUploadController = FileUploadController;
 exports.FileUploadController = FileUploadController = tslib_1.__decorate([
     (0, common_1.Controller)('file-upload')
 ], FileUploadController);
-
-
-/***/ }),
-/* 62 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GoogleModule = void 0;
-const tslib_1 = __webpack_require__(6);
-const common_1 = __webpack_require__(1);
-const google_calendar_service_1 = __webpack_require__(63);
-let GoogleModule = class GoogleModule {
-};
-exports.GoogleModule = GoogleModule;
-exports.GoogleModule = GoogleModule = tslib_1.__decorate([
-    (0, common_1.Module)({
-        providers: [google_calendar_service_1.GoogleCalendarService],
-    })
-], GoogleModule);
-
-
-/***/ }),
-/* 63 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GoogleCalendarService = void 0;
-const tslib_1 = __webpack_require__(6);
-const common_1 = __webpack_require__(1);
-let GoogleCalendarService = class GoogleCalendarService {
-    constructor() {
-        this.apiKey = 'AIzaSyA7DSKRHG9d53-QZDguCJyVhWFnAGcJdz4';
-    }
-};
-exports.GoogleCalendarService = GoogleCalendarService;
-exports.GoogleCalendarService = GoogleCalendarService = tslib_1.__decorate([
-    (0, common_1.Injectable)()
-], GoogleCalendarService);
 
 
 /***/ })

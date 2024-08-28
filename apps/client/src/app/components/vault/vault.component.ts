@@ -9,11 +9,18 @@ import { AddVaultComponent } from './add-vault/add-vault.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Vault } from '@event-trackr/shared';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'event-trackr-vault',
   standalone: true,
-  imports: [CommonModule, VaultCardComponent, Button, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    VaultCardComponent,
+    Button,
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
+  ],
   providers: [VaultService, ConfirmationService, DialogService],
   templateUrl: './vault.component.html',
   styleUrls: ['./vault.component.scss'],

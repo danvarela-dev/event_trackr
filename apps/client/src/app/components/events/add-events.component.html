@@ -106,9 +106,17 @@
 
     <div class="w-full footer text-center">
       @if (editEvent) {
-      <p-button label="Actualizar" (onClick)="updateEvent()"></p-button>
+      <p-button
+        label="Actualizar"
+        [disabled]="formGroup.invalid"
+        (onClick)="updateEvent()"
+      ></p-button>
       } @else {
-      <p-button label="Guardar" (onClick)="saveEvent()"></p-button>
+      <p-button
+        label="Guardar"
+        [disabled]="formGroup.invalid"
+        (onClick)="saveEvent()"
+      ></p-button>
       }
     </div>
   </form>
