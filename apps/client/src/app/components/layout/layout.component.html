@@ -8,13 +8,25 @@
     <div class="sidebar-items">
       @for (item of sidebarItems; track item.id) {
       <div class="sidebar-item">
-        <p-button
+        @if (item.id == 6 || item.id == 7) {
+          <p-button
+          [text]="true"
+          [label]="item.label"
+          [icon]="item.icon"
+          [ngClass]="{ 'active-link': isRouteActive(item.link) }"
+          badge="soon"
+          badgeClass="p-badge-success"
+        ></p-button>
+        } @else {
+          <p-button
           [text]="true"
           [label]="item.label"
           [icon]="item.icon"
           [routerLink]="item.link"
           [ngClass]="{ 'active-link': isRouteActive(item.link) }"
         ></p-button>
+        }
+
       </div>
       }
     </div>

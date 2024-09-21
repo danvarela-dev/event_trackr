@@ -75,10 +75,22 @@ export class LayoutComponent implements OnInit {
       link: '/layout/users',
     },
     {
-      id: 4,
+      id: 5,
       label: 'Bóveda',
       icon: 'pi pi-fw pi-lock',
       link: '/layout/vault',
+    },
+    {
+      id: 6,
+      label: 'Finanzas',
+      icon: 'pi pi-fw pi-wallet',
+      link: '/home',
+    },
+    {
+      id: 7,
+      label: 'Empleados',
+      icon: 'pi pi-fw pi-briefcase',
+      link: '/home',
     },
   ];
 
