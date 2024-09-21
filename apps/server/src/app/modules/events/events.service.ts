@@ -57,7 +57,15 @@ export class EventsService {
     }
   }
 
-  async deleteEvent(id: number): Promise<void> {
-    await this.eventsRepository.delete(id);
+  async deleteEvent(id: number): Promise<boolean> {
+    try {
+      const deletedEvent = await this.eventsRepository.delete(id);
+      if (!deletedEvent) return false;
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 }

@@ -123,6 +123,13 @@
         [disabled]="formGroup.invalid"
         (onClick)="updateEvent()"
       ></p-button>
+      <p-confirmDialog></p-confirmDialog>
+        <p-button
+        styleClass="ml-3"
+        severity="danger"
+        label="Eliminar"
+        (onClick)="deleteEvent()"
+      ></p-button>
       } @else {
       <p-button
         label="Guardar"

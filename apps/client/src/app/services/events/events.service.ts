@@ -35,4 +35,13 @@ export class EventsService {
       },
     );
   }
+
+  deleteEvent(id: number): Observable<Response<boolean>> {
+    const params = new HttpParams().set('id', id);
+    console.log('deleteEvent', `${this.base_url}/events/delete`);
+    return this.httpClient.delete<Response<boolean>>(
+      `${this.base_url}/events/delete`,
+      { params },
+    );
+  }
 }

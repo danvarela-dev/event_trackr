@@ -24,9 +24,10 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError } from 'rxjs';
 import { EventInput } from '@fullcalendar/core';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'event-trackr-events',
@@ -46,16 +47,18 @@ import { EventInput } from '@fullcalendar/core';
     ReactiveFormsModule,
     InputNumberModule,
     SelectButtonModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './add-events.component.html',
   styleUrl: './add-events.component.scss',
-  providers: [CategoriesService],
+  providers: [CategoriesService, ConfirmationService],
 })
 export class AddEventsComponent implements OnInit {
   categories: Category[] = [];
   event: EventInput;
   editEvent: boolean;
   uploadedFiles: any[] = [];
+  eventId: number;
   frequencies = [
     {
       label: 'Anualmente',
@@ -103,6 +106,7 @@ export class AddEventsComponent implements OnInit {
     private dialogRef: DynamicDialogRef,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) {}
 
   initForm() {
@@ -131,6 +135,7 @@ export class AddEventsComponent implements OnInit {
 
     if (edit_event) {
       const { event } = eventData.event._def.extendedProps;
+      this.eventId = event.id;
       const selectedFrequency =
         this.frequencies.find(({ value }) => value === event.frequency) ?? null;
 
@@ -265,5 +270,44 @@ export class AddEventsComponent implements OnInit {
           });
         });
     }
+  }
+
+  deleteEvent() {
+    console.log(this.eventId);
+    this.confirmationService.confirm({
+      message: 'Esta seguro de eliminar este evento?',
+      header: 'Eliminar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.eventsService
+          .deleteEvent(this.eventId)
+          .pipe(
+            catchError(err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error al eliminar el evento',
+              });
+
+              this.dialogRef.close({
+                success: false,
+              });
+
+              return err;
+            }),
+          )
+          .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Listo',
+              detail: 'El evento fue eliminado',
+            });
+
+            this.dialogRef.close({
+              success: true,
+            });
+          });
+      },
+    });
   }
 }

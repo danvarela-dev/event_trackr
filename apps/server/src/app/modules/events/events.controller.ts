@@ -32,12 +32,15 @@ export class EventsController {
   }
 
   @Patch()
-  async updateEvent(@Query() id: any, @Body() updatedEvent: Events) {
+  async updateEvent(
+    @Query() id: Record<string, number>,
+    @Body() updatedEvent: Events,
+  ) {
     return await this.eventsService.updateEvent(id.id, updatedEvent);
   }
 
-  @Delete(':id')
-  async deleteEvent(id: number) {
+  @Delete('delete')
+  async deleteEvent(@Query('id') id: number) {
     return await this.eventsService.deleteEvent(id);
   }
 }
