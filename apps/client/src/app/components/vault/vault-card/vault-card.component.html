@@ -1,11 +1,13 @@
-<div class="card-container max-w-18rem">
+<div class="card-container" [ngStyle]="{'background': getGradientColor(vault.vaultCategory.name)}">
   <p-card class="border-round">
     <ng-template pTemplate="header">
-      <img [src]="vault.vaultCategory.image" />
+      <div class="image-container">
+        <img [src]="vault.vaultCategory.image" />
+      </div>
     </ng-template>
     <ng-template pTemplate="title" class="flex align-items-end">
       <span [pTooltip]="vault.name" tooltipPosition="top">{{
-        vault.name | ellipsis : 16
+        vault.name | ellipsis : 14
       }}</span>
     </ng-template>
     <ng-template pTemplate="subtitle">
@@ -64,3 +66,4 @@
     </ng-template>
   </p-card>
 </div>
+
